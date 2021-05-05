@@ -1,4 +1,4 @@
-# `RevolutionSoup`
+# RevolutionSoup
 A Java Swing app that gives a guided walk through on volume of revolution problems
 from the Type 4 FRQs packet.
 
