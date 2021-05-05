@@ -50,7 +50,7 @@ public class RevolutionSoup {
      *
      * @param a    The upper limit of integration.
      * @param b    The lower limit of integration.
-     * @param axis The y value of the axis of rotation where 0 is about the x-axis.
+     * @param axis The y/x value of the axis of rotation where 0 is about the x/y-axis.
      * @return The volume of revolution.
      */
     public double revolution(double a, double b, double axis) {
