@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class RevolutionSoup {
     private Function function;
-    private int N;
+    private final int N;
 
     public RevolutionSoup(int N) {
         this.N = N;
@@ -17,10 +17,6 @@ public class RevolutionSoup {
         this.function = f;
     }
 
-    /**********************************************************************
-     * Integrate f from a to b using Simpson's rule.
-     * Increase N for more precision.
-     **********************************************************************/
     public double integrate(double a, double b) {
         double h = (b - a) / (N - 1);     // step size
 
