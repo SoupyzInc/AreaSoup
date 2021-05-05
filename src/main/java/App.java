@@ -2,20 +2,8 @@ import javax.swing.*;
 
 public class App {
     public static void main(String[] args) {
-        Function f;
-        RevolutionSoup rs = new RevolutionSoup(100000);
-
-        f = new TwoX();
-        rs.setFunction(f);
-        System.out.println(rs.integrate(1, 2));
-
-        f = new XSquared();
-        rs.setFunction(f);
-        System.out.println(rs.integrate(1, 2));
-
-        f = new XCubed();
-        rs.setFunction(f);
-        System.out.println(rs.integrate(1, 2));
+        RevolutionSoup rs = new RevolutionSoup(new XCubed(), new XSquared(), 10000000);
+        System.out.println(rs.revolution(0, 1, 3));
 
 //        JFrame f = new JFrame();
 //
