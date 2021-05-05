@@ -17,14 +17,6 @@ public class RevolutionSoup {
         this.function = f;
     }
 
-//    /**********************************************************************
-//     * Standard normal distribution density function.
-//     * Replace with any sufficiently smooth function.
-//     **********************************************************************/
-//    public static double f(double x) {
-//        return Math.pow(x, 2);
-//    }
-
     /**********************************************************************
      * Integrate f from a to b using Simpson's rule.
      * Increase N for more precision.
