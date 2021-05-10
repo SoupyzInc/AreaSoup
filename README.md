@@ -27,13 +27,15 @@ public class XCubed implements Function {
 }
 ```
 
-#### Passing the data through `RevolutionSoup`
-Create a new instance of `RevolutionSoup` and assign your function to it.
+#### Calculating Volume of Revolutions
 ```java
-Function f = new TwoX();
-RevolutionSoup rs = new RevolutionSoup(f, 100000);
+Function topFunction = new xCubed(); // f(x) = x^3
+FUnction bottomFunction = new xSquared(); // f(x) = x^2
+        
+RevolutionSoup rs = new RevolutionSoup(topFunction, bottomFunction, 10000000);
 
-System.out.println(rs.integrate(1, 2));
+//Revolve from 0 to 1, about y = 3.
+System.out.println(rs.revolution(0, 1, 3));
 ```
 
 ### Attribution
