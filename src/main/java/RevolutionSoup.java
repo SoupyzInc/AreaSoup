@@ -25,10 +25,10 @@ public class RevolutionSoup {
     /**
      * Integrates the function, f, from a to b using Simpson's rule.
      *
-     * @param a        The upper limit of integration.
-     * @param b        The lower limit of integration.
+     * @param a        The lower limit of integration.
+     * @param b        The upper limit of integration.
      * @param function The function to integrate.
-     * @return The area under curve from a to b.
+     * @return The area under the curve from a to b.
      */
     public double integrate(double a, double b, Function function) {
         double h = (b - a) / (N - 1); // Step size.
@@ -55,8 +55,8 @@ public class RevolutionSoup {
      * Calculates the volume of revolution for the top function and bottom function
      * of this instance of RevolutionSoup from a to b about the x-axis.
      *
-     * @param a    The upper limit of integration.
-     * @param b    The lower limit of integration.
+     * @param a    The lower limit of integration.
+     * @param b    The upper limit of integration.
      * @param axis The y/x value of the axis of rotation where 0 is about the x/y-axis.
      * @return The volume of revolution.
      */
