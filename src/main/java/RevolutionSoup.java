@@ -1,5 +1,5 @@
 public class RevolutionSoup {
-    private final Function functionTop, functionBottom;
+    private Function functionTop, functionBottom;
     private final int N;
 
     /**
@@ -15,8 +15,16 @@ public class RevolutionSoup {
         this.N = N;
     }
 
+    public void setFunctionTop(Function functionTop) {
+        this.functionTop = functionTop;
+    }
+
+    public void setFunctionBottom(Function functionBottom) {
+        this.functionBottom = functionBottom;
+    }
+
     /**
-     * Integrates the function, f,  from a to b using Simpson's rule.
+     * Integrates the function, f, from a to b using Simpson's rule.
      *
      * @param a        The upper limit of integration.
      * @param b        The lower limit of integration.
