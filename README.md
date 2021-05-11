@@ -39,5 +39,5 @@ System.out.println(rs.revolution(0, 1, 3));
 ```
 
 ### Attribution
-This project was made by [Matthew Okashita](https://github.com/SoupyzInc) for 
+This project was made by [Matthew Okashita](https://github.com/SoupyzInc) and [Joseph Benigno](https://github.com/jojongx) for 
 Mr. Adam's 2021 Calculus Closet Project.
