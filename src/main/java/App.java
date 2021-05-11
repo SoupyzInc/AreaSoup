@@ -1,5 +1,3 @@
-import javax.swing.*;
-
 public class App {
     public static void main(String[] args) {
         RevolutionSoup rs = new RevolutionSoup(new SinX(), new XAxis(), 10000000);
