@@ -1,18 +1,17 @@
 public class RevolutionSoup {
+    private static final int N = 10000000;
     private Function functionTop, functionBottom;
-    private final int N;
 
     /**
-     * Instantiates a new instance of RevolutionSoup to solve volume of revolution problems.
+     * Instantiates a new instance of RevolutionSoup to solve volume of revolution
+     * problems.
      *
      * @param functionTop    The top function.
      * @param functionBottom The bottom function.
-     * @param N              The accuracy value.
      */
-    public RevolutionSoup(Function functionTop, Function functionBottom, int N) {
+    public RevolutionSoup(Function functionTop, Function functionBottom) {
         this.functionTop = functionTop;
         this.functionBottom = functionBottom;
-        this.N = N;
     }
 
     public void setFunctionTop(Function functionTop) {

@@ -1,6 +1,6 @@
 public class App {
     public static void main(String[] args) {
-        RevolutionSoup rs = new RevolutionSoup(new SinX(), new XAxis(), 10000000);
+        RevolutionSoup rs = new RevolutionSoup(new SinX(), new XAxis());
 
         // Test 1
         System.out.println(rs.integrate(0, (2 * Math.PI), new SinX()));
