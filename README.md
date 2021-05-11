@@ -1,6 +1,6 @@
 # RevolutionSoup
-Ultimately a Java app that gives a guided walk through on volume of revolution problems
-from the Type 4 FRQs packet; `RevolutionSoup` is a basic calculus engine that can integrate functions and solve
+Ultimately, a Java app that gives a guided walk through on volume of revolution problems
+from the Type 4 FRQs packet, `RevolutionSoup` is a basic calculus engine that can integrate functions and solve
 volume of revolution problems.
 
 ### How to add new functions
@@ -34,11 +34,11 @@ System.out.println(rs.revolution(0, 1, 3));
 ```
 
 ### Attribution
-This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for 
-Mr. Adam's 2021 Calculus Closet Project.
-
+This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
+Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information.
 
 [function]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/Function.java
 [cubed]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/XCubed.java
 [soupyzinc]: https://github.com/SoupyzInc
 [jojongx]: https://github.com/jojongx
+[license]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/LICENSE
