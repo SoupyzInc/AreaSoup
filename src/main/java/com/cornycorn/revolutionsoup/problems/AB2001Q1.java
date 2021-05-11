@@ -2,6 +2,9 @@ package com.cornycorn.revolutionsoup.problems;
 
 import java.util.Scanner;
 
+/**
+ * AB 2001 FRQ #1 from the Type 4 FRQs Packet.
+ */
 public class AB2001Q1 {
     private static final String NAME = "AB 2001 #1";
     private static final String PROBLEM = "Let R and S be the regions in the first quadrant shown in the figure " +
@@ -10,10 +13,13 @@ public class AB2001Q1 {
     private static final String A = "(a) FInd the area of R.";
     private static final String B = "(b) Find the area of S.";
     private static final String C = "(c) Find the volume of the solid generated when S is revolved about the x-axis.";
-Be
+
     private static final String INVALID_PROBLEM = " is not a valid problem.";
     private static final String DIVIDER = "---------------------------------------------------------------";
 
+    /**
+     * Begins solving this problem.
+     */
     public void solve() {
         boolean exit = false;
         while (!exit) {
@@ -36,6 +42,9 @@ Be
         }
     }
 
+    /**
+     * Solves part (a).
+     */
     public void solveA() {
         System.out.println("The problem gives us the region that R is bounded to. The solution is as simple as " +
                 "calculating the area between two curves.\n");
@@ -48,10 +57,16 @@ Be
                 "Here, that is where \n\ttan x = 2 - x^3\n");
     }
 
+    /**
+     * Solves part (b).
+     */
     public void solveB() {
         System.out.println("b");
     }
 
+    /**
+     * Solves part (c).
+     */
     public void solveC() {
         System.out.println("c");
     }
