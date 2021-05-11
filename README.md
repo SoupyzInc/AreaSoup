@@ -36,10 +36,15 @@ public class XCubed implements Function {
 
 ### Attribution
 This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
-Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information.
+Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information. 
+
+FRQ problems used as examples are from past AP Calculus AB and BC exams. AB problems can be found [here][ab] and the BC 
+problems [here][bc] on CollegeBoard's website.
 
 [function]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/Function.java
 [cubed]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/XCubed.java
 [soupyzinc]: https://github.com/SoupyzInc
 [jojongx]: https://github.com/jojongx
 [license]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/LICENSE
+[ab]: https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam/past-exam-questions
+[bc]: https://apcentral.collegeboard.org/courses/ap-calculus-bc/exam/past-exam-questions 
