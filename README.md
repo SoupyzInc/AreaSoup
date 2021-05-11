@@ -5,8 +5,10 @@ volume of revolution problems.
 
 ### Example Usage
 ```java
+import com.cornycorn.revolutionsoup.functions.*;
+
 Function topFunction = new xCubed(); // f(x) = x^3
-FUnction bottomFunction = new xSquared(); // f(x) = x^2
+Function bottomFunction = new xSquared(); // f(x) = x^2
         
 RevolutionSoup rs = new RevolutionSoup(topFunction, bottomFunction);
 
@@ -15,16 +17,15 @@ System.out.println(rs.revolution(0, 1, 3));
 ```
 
 ### How to add new functions
-To add new functions, create a new class that `implements` the `Function` interface.
-Function is defined under 
-[src/main/java/Function.java][function] as
+To add new functions, create a new class that `implements` the `Function` interface. Function is defined under 
+[Function.java][function] as
 ```java
 public interface Function {
     double f(double x);
 }
 ```
-An example of a cubic function is defined under 
-[src/main/java/XCubed.java][cubed] as
+An example of a cubic function is defined under [XCubed.java][cubed] as
+
 ```java
 public class XCubed implements Function {
     public double f(double x) {

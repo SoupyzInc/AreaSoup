@@ -1,3 +1,8 @@
+package com.cornycorn.revolutionsoup;
+
+import com.cornycorn.revolutionsoup.functions.Function;
+import com.cornycorn.revolutionsoup.functions.Squared;
+
 public class RevolutionSoup {
     private static final int N = 10000000;
     private Function functionTop, functionBottom;
