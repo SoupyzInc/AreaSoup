@@ -62,16 +62,16 @@ public class RevolutionSoup {
      * @return The volume of revolution.
      */
     public double revolution(double a, double b, double axis) {
-        // The top function squared with the axis offset.
-        Function squareFunctionTop = new Squared() {
+        // The top function with the axis offset squared.
+        Function squaredFunctionTop = new Squared() {
             @Override
             public double f(double x) {
                 return Math.pow(axis - functionTop.f(x), 2);
             }
         };
 
-        // The bottom function squared with the axis offset.
-        Function squareFunctionBottom = new Squared() {
+        // The bottom function with the axis offset squared.
+        Function squaredFunctionBottom = new Squared() {
             @Override
             public double f(double x) {
                 return Math.pow(axis - functionBottom.f(x), 2);
@@ -79,6 +79,6 @@ public class RevolutionSoup {
         };
 
         // Split the volume of revolution formula into two separate integrals.
-        return Math.PI * (integrate(a, b, squareFunctionTop) - integrate(a, b, squareFunctionBottom));
+        return Math.PI * (integrate(a, b, squaredFunctionTop) - integrate(a, b, squaredFunctionBottom));
     }
 }
