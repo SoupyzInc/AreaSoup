@@ -73,4 +73,11 @@ public class RevolutionSoup {
         // Split the volume of revolution formula into two separate integrals.
         return Math.PI * (integrate(a, b, squaredFunctionTop) - integrate(a, b, squaredFunctionBottom));
     }
+
+    /**
+     * Main method for debugging.
+     */
+    public static void main(String[] args) {
+
+    }
 }
