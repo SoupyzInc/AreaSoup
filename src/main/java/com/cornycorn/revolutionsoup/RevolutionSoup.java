@@ -4,27 +4,15 @@ import com.cornycorn.revolutionsoup.functions.Function;
 import com.cornycorn.revolutionsoup.functions.Squared;
 
 public class RevolutionSoup {
-    private static final int N = 10000000;
-    private Function functionTop, functionBottom;
+    private static int N = 10000000;
 
     /**
-     * Instantiates a new instance of RevolutionSoup to solve volume of revolution
-     * problems.
+     * Sets the accuracy value for integration calculations.
      *
-     * @param functionTop    The top function.
-     * @param functionBottom The bottom function.
+     * @param N The accuracy value.
      */
-    public RevolutionSoup(Function functionTop, Function functionBottom) {
-        this.functionTop = functionTop;
-        this.functionBottom = functionBottom;
-    }
-
-    public void setFunctionTop(Function functionTop) {
-        this.functionTop = functionTop;
-    }
-
-    public void setFunctionBottom(Function functionBottom) {
-        this.functionBottom = functionBottom;
+    public static void setN(int N) {
+        RevolutionSoup.N = N;
     }
 
     /**
@@ -35,7 +23,7 @@ public class RevolutionSoup {
      * @param function The function to integrate.
      * @return The area under the curve from a to b.
      */
-    public double integrate(double a, double b, Function function) {
+    public static double integrate(double a, double b, Function function) {
         double h = (b - a) / (N - 1); // Step size.
 
         // 1/3 terms.
@@ -65,7 +53,7 @@ public class RevolutionSoup {
      * @param axis The y/x value of the axis of rotation where 0 is about the x/y-axis.
      * @return The volume of revolution.
      */
-    public double revolution(double a, double b, double axis) {
+    public static double revolution(double a, double b, double axis, Function functionTop, Function functionBottom) {
         // The top function with the axis offset squared.
         Function squaredFunctionTop = new Squared() {
             @Override

@@ -5,19 +5,19 @@ volume of revolution problems.
 
 ### Example Usage
 ```java
+import com.cornycorn.revolutionsoup;
 import com.cornycorn.revolutionsoup.functions.*;
 
-Function topFunction = new xCubed(); // f(x) = x^3
-Function bottomFunction = new xSquared(); // f(x) = x^2
-        
-RevolutionSoup rs = new RevolutionSoup(topFunction, bottomFunction);
+// Find the volume of the region bounded by y = x^3 and y = x^2, 
+// rotated about the line y = 3.
+Function topFunction = new XCubed(); // y = x^3
+Function bottomFunction = new XSquared(); // y = x^2
 
-// Revolve from 0 to 1, about y = 3.
-System.out.println(rs.revolution(0, 1, 3));
+double volume = RevolutionSoup.revolution(0, 1, 3, topFunction, bottomFunction);
 ```
 
 ### How to add new functions
-To add new functions, create a new class that `implements` the `Function` interface. Function is defined under 
+To add new functions, create a new class that `implements` the `Function` interface. `Function` is defined under 
 [Function.java][function] as
 ```java
 public interface Function {
