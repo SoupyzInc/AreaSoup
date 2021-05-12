@@ -20,7 +20,7 @@ public class AB2001Q1 {
     /**
      * Begins solving this problem.
      */
-    public void solve() {
+    public static void solve() {
         boolean exit = false;
         while (!exit) {
             System.out.println(DIVIDER + DIVIDER + "\n" + NAME);
@@ -45,7 +45,7 @@ public class AB2001Q1 {
     /**
      * Solves part (a).
      */
-    public void solveA() {
+    public static void solveA() {
         System.out.println("The problem gives us the region that R is bounded to. The solution is as simple as " +
                 "calculating the area between two curves.\n");
         System.out.println("You should first notice that the region R has three total 'things' binding it: the " +
@@ -60,14 +60,21 @@ public class AB2001Q1 {
     /**
      * Solves part (b).
      */
-    public void solveB() {
+    public static void solveB() {
         System.out.println("b");
     }
 
     /**
      * Solves part (c).
      */
-    public void solveC() {
+    public static void solveC() {
         System.out.println("c");
+    }
+
+    /**
+     * Main method for debugging.
+     */
+    public static void main(String[] args) {
+        AB2001Q1.solve();
     }
 }
