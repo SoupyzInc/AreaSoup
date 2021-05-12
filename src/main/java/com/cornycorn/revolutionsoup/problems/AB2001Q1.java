@@ -46,15 +46,17 @@ public class AB2001Q1 {
      * Solves part (a).
      */
     public static void solveA() {
-        System.out.println("The problem gives us the region that R is bounded to. The solution is as simple as " +
-                "calculating the area between two curves.\n");
-        System.out.println("You should first notice that the region R has three total 'things' binding it: the " +
+        String ASolution = "The problem gives us the region that R is bounded to. The solution is as simple as " +
+                "calculating the area between two curves.\n\n" +
+                "You should first notice that the region R has three total 'things' binding it: the " +
                 "x-axis, y = tan x, and y = 2 - x^3. We should also notice that half way through R, the top curve " +
-                "changes, oh no! This means that we will need to take the sum of two integrals.\n");
-        System.out.println("Our first integral will have a top function of y = tan x and bottom function of y = 0. " +
+                "changes, oh no! This means that we will need to take the sum of two integrals.\n\n" +
+                "Our first integral will have a top function of y = tan x and bottom function of y = 0. " +
                 "Our limits of integration are from 0 to where the top curve changes from y = tan x to y = 2 - x^3. " +
                 "The upper limit of integration can be calculated by finding where the two top functions intersect. " +
-                "Here, that is where \n\ttan x = 2 - x^3\n");
+                "Here, that is where \n\ttan x = 2 - x^3\n";
+
+        System.out.println(ASolution);
     }
 
     /**
