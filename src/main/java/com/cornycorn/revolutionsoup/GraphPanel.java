@@ -134,16 +134,6 @@ public class GraphPanel extends JPanel {
         return maxData;
     }
 
-    public void setDatas(List<Double> datas) {
-        this.datas = datas;
-        invalidate();
-        this.repaint();
-    }
-
-    public List<Double> getDatas() {
-        return datas;
-    }
-
     private static void createAndShowGui() {
         // Get values
         List<Double> datas = new ArrayList<>();
@@ -164,10 +154,6 @@ public class GraphPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGui();
-            }
-        });
+        SwingUtilities.invokeLater(GraphPanel::createAndShowGui);
     }
 }
