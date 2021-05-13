@@ -5,6 +5,9 @@ import com.cornycorn.revolutionsoup.functions.SinX;
 import com.cornycorn.revolutionsoup.functions.Squared;
 import com.cornycorn.revolutionsoup.functions.XAxis;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RevolutionSoup {
     private static int N = 10000000;
 
@@ -74,6 +77,32 @@ public class RevolutionSoup {
 
         // Split the volume of revolution formula into two separate integrals.
         return Math.PI * (integrate(a, b, squaredFunctionTop) - integrate(a, b, squaredFunctionBottom));
+    }
+
+    /**
+     * Returns the points for the left rectangles of a function.
+     *
+     * @param interval The interval or width of the rectangles.
+     * @param dataPoints The total amount of data points to be calculated.
+     * @param function The function to find the left rectangles of.
+     * @return The points to graph the left rectangles.
+     */
+    public static List<Double> leftRiemannSum(int interval, int dataPoints, Function function) {
+        List<Double> datas = new ArrayList<>();
+        int nextInterval = interval;
+        double point = function.f(0);
+        for (int i = 0; i < dataPoints; i++) {
+            if (i == nextInterval - 1) {
+                point = 0;
+            } else if (i == nextInterval) {
+                point = function.f(i * (Math.PI / 180));
+                nextInterval += interval;
+            }
+
+            datas.add(point);
+        }
+
+        return datas;
     }
 
     /**
