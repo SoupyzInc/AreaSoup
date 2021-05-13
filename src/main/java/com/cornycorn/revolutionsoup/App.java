@@ -1,12 +1,11 @@
 package com.cornycorn.revolutionsoup;
 
-import com.cornycorn.revolutionsoup.problems.*;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import com.cornycorn.revolutionsoup.problems.*;
 
 abstract class App extends JFrame implements ActionListener {
     private static final JFrame frame = new JFrame("RevolutionSoup");
@@ -20,31 +19,16 @@ abstract class App extends JFrame implements ActionListener {
         panel.add(label);
 
         JButton solveA = new JButton("(a)");
-        solveA.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                ta.setText(problem.solve() + "\n\n" + problem.solveA());
-            }
-        });
+        solveA.addActionListener(ev -> ta.setText(problem.solve() + "\n\n" + problem.solveA()));
         panel.add(solveA);
 
         JButton solveB = new JButton("(b)");
-        solveB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                ta.setText(problem.solve());
-            }
-        });
+        solveB.addActionListener(ev -> ta.setText(problem.solve() + "\n\n" + problem.solveB()));
         panel.add(solveB);
 
         if (numberOfParts > 2) {
             JButton solveC = new JButton("(C)");
-            solveC.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ev) {
-                    ta.setText(problem.solve());
-                }
-            });
+            solveC.addActionListener(ev -> ta.setText(problem.solve() + "\n\n" + problem.solveC()));
             panel.add(solveC);
         }
 
@@ -58,6 +42,28 @@ abstract class App extends JFrame implements ActionListener {
         panel.add(clear);
     }
 
+    public static void setProblems() {
+        // Problems
+        JMenu m1 = new JMenu("Problem");
+        mb.add(m1);
+
+        JMenuItem m11 = new JMenuItem("AB 2001 #1");
+        m11.addActionListener(ev -> {
+            problem = new AB2001Q1();
+            ta.setText(problem.solve());
+            setPanel(problem.getNumberOfParts());
+        });
+        m1.add(m11);
+
+        JMenuItem m22 = new JMenuItem("AB 2002 #1");
+        m22.addActionListener(ev -> {
+//                problem = new AB2002Q1();
+//                ta.setText(problem.solve());
+//                setPanel(problem.getNumberOfParts());
+        });
+        m1.add(m22);
+    }
+
     public static void initialize() {
         // Frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,29 +75,8 @@ abstract class App extends JFrame implements ActionListener {
         ta.setBorder(new EmptyBorder(5, 10, 10, 10));
         ta.setEditable(false);
 
-        // Menu bar
-        JMenu m1 = new JMenu("Problem");
-        mb.add(m1);
-
-        // Problems
-        JMenuItem m11 = new JMenuItem("AB 2001 #1");
-        m11.addActionListener(ev -> {
-            problem = new AB2001Q1();
-            ta.setText(problem.solve());
-            setPanel(problem.getNumberOfParts());
-        });
-        m1.add(m11);
-
-        JMenuItem m22 = new JMenuItem("AB 2002 #1");
-        m22.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-//                problem = new AB2002Q1();
-//                ta.setText(problem.solve());
-//                setPanel(problem.getNumberOfParts());
-            }
-        });
-        m1.add(m22);
+        // Menu Bar
+        setProblems();
 
         // Add components to frame.
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
