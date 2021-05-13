@@ -20,7 +20,8 @@ import com.cornycorn.revolutionsoup.functions.*;
 public class GraphPanel extends JPanel {
     private static final int PADDING = 25;
     private static final int LABEL_PADDING = 25;
-    private static final Color LINE_COLOR = new Color(44, 102, 230, 180);
+    private static final Color LINE_COLOR_MAIN = new Color(44, 102, 230, 180);
+    private static final Color LINE_COLOR_SECONDARY = new Color(77, 210, 62, 180);
     private static final Color POINT_COLOR = new Color(100, 100, 100, 180);
     private static final Color GRID_COLOR = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
@@ -28,9 +29,11 @@ public class GraphPanel extends JPanel {
     private static final int Y_DIVISIONS = 10;
 
     private final List<Double> datas;
+    private final List<Double> traps;
 
-    public GraphPanel(List<Double> datas) {
+    public GraphPanel(List<Double> datas, List<Double> traps) {
         this.datas = datas;
+        this.traps = traps;
     }
 
     @Override
@@ -42,11 +45,19 @@ public class GraphPanel extends JPanel {
         double xScale = ((double) getWidth() - (2 * PADDING) - LABEL_PADDING) / (datas.size() - 1);
         double yScale = ((double) getHeight() - 2 * PADDING - LABEL_PADDING) / (getMaxData() - getMinData());
 
+        // Set graph points
         List<Point> graphPoints = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
             int y1 = (int) ((getMaxData() - datas.get(i)) * yScale + PADDING);
             graphPoints.add(new Point(x1, y1));
+        }
+
+        List<Point> graphPoints1 = new ArrayList<>();
+        for (int i = 0; i < traps.size(); i++) {
+            int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
+            int y1 = (int) ((getMaxData() - traps.get(i)) * yScale + PADDING);
+            graphPoints1.add(new Point(x1, y1));
         }
 
         // Fill background.
@@ -94,8 +105,8 @@ public class GraphPanel extends JPanel {
         g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
         g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
 
-        Stroke oldStroke = g2.getStroke();
-        g2.setColor(LINE_COLOR);
+//        Stroke oldStroke = g2.getStroke();
+        g2.setColor(LINE_COLOR_MAIN);
         g2.setStroke(GRAPH_STROKE);
         for (int i = 0; i < graphPoints.size() - 1; i++) {
             int x1 = graphPoints.get(i).x;
@@ -105,13 +116,24 @@ public class GraphPanel extends JPanel {
             g2.drawLine(x1, y1, x2, y2);
         }
 
-        g2.setStroke(oldStroke);
-        g2.setColor(POINT_COLOR);
-        for (Point graphPoint : graphPoints) {
-            int x = graphPoint.x - POINT_WIDTH / 2;
-            int y = graphPoint.y - POINT_WIDTH / 2;
-            g2.fillOval(x, y, POINT_WIDTH, POINT_WIDTH);
+        // Draw
+        g2.setColor(LINE_COLOR_SECONDARY);
+        for (int i = 0; i < graphPoints1.size() - 1; i++) {
+            int x1 = graphPoints1.get(i).x;
+            int y1 = graphPoints1.get(i).y;
+            int x2 = graphPoints1.get(i + 1).x;
+            int y2 = graphPoints1.get(i + 1).y;
+            g2.drawLine(x1, y1, x2, y2);
         }
+
+        // Points
+//        g2.setStroke(oldStroke);
+//        g2.setColor(POINT_COLOR);
+//        for (Point graphPoint : graphPoints) {
+//            int x = graphPoint.x - POINT_WIDTH / 2;
+//            int y = graphPoint.y - POINT_WIDTH / 2;
+//            g2.fillOval(x, y, POINT_WIDTH, POINT_WIDTH);
+//        }
     }
 
     private double getMinData() {
@@ -131,7 +153,7 @@ public class GraphPanel extends JPanel {
     }
 
     private static void createAndShowGui() {
-        // Get values
+        // Set values
         List<Double> datas = new ArrayList<>();
         int maxDataPoints = 360;
         for (int i = 0; i < maxDataPoints; i++) {
@@ -139,7 +161,14 @@ public class GraphPanel extends JPanel {
             datas.add(func.f(i * (Math.PI / 180)));
         }
 
-        GraphPanel mainPanel = new GraphPanel(datas);
+        List<Double> traps = RevolutionSoup.leftRiemannSum(19, maxDataPoints, new SinX());
+//        for (int i = 0; i < maxDataPoints; i++) {
+//            Function func = new CosX();
+//            traps.add(func.f(i * (Math.PI / 180)));
+//        }
+
+        // Set GUI
+        GraphPanel mainPanel = new GraphPanel(datas, traps);
         mainPanel.setPreferredSize(new Dimension(800, 600));
         JFrame frame = new JFrame("RevolutionSoup");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
