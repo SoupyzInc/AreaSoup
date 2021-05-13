@@ -1,6 +1,5 @@
 package com.cornycorn.revolutionsoup;
 
-import com.cornycorn.revolutionsoup.functions.*;
 import com.cornycorn.revolutionsoup.problems.*;
 
 import javax.swing.*;
@@ -14,15 +13,49 @@ abstract class App extends JFrame implements ActionListener {
     private static final JTextArea ta = new JTextArea();
     private static final JMenuBar mb = new JMenuBar();
     private static final JPanel panel = new JPanel();
+    private static Problem problem;
 
-    public void setButtons(int numberOfParts) {
+    public static void setPanel(int numberOfParts) {
+        JLabel label = new JLabel("Solve: ");
+        panel.add(label);
+
+        JButton solveA = new JButton("(a)");
+        solveA.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                ta.setText(problem.solve() + "\n\n" + problem.solveA());
+            }
+        });
+        panel.add(solveA);
+
+        JButton solveB = new JButton("(b)");
+        solveB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                ta.setText(problem.solve());
+            }
+        });
+        panel.add(solveB);
+
         if (numberOfParts > 2) {
-
-        } else if (numberOfParts > 1) {
-
-        } else {
-
+            JButton solveC = new JButton("(C)");
+            solveC.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ev) {
+                    ta.setText(problem.solve());
+                }
+            });
+            panel.add(solveC);
         }
+
+        panel.add(new JSeparator(SwingConstants.VERTICAL));
+
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(ev -> {
+            ta.setText("");
+            panel.removeAll();
+        });
+        panel.add(clear);
     }
 
     public static void initialize() {
@@ -42,11 +75,10 @@ abstract class App extends JFrame implements ActionListener {
 
         // Problems
         JMenuItem m11 = new JMenuItem("AB 2001 #1");
-        m11.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                ta.setText(AB2001Q1.solve());
-            }
+        m11.addActionListener(ev -> {
+            problem = new AB2001Q1();
+            ta.setText(problem.solve());
+            setPanel(problem.getNumberOfParts());
         });
         m1.add(m11);
 
@@ -54,20 +86,12 @@ abstract class App extends JFrame implements ActionListener {
         m22.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
-                System.out.println("2002");
+//                problem = new AB2002Q1();
+//                ta.setText(problem.solve());
+//                setPanel(problem.getNumberOfParts());
             }
         });
         m1.add(m22);
-
-        // Bottom panel
-        JLabel label = new JLabel("Enter Text");
-        JTextField tf = new JTextField(10); // accepts up to 10 characters
-        JButton send = new JButton("Send");
-        JButton reset = new JButton("Reset");
-        panel.add(label); // Components Added using Flow Layout
-        panel.add(tf);
-        panel.add(send);
-        panel.add(reset);
 
         // Add components to frame.
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
