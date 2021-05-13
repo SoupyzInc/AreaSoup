@@ -15,6 +15,8 @@ abstract class App extends JFrame implements ActionListener {
     private static Problem problem;
 
     public static void setPanel(int numberOfParts) {
+        panel.removeAll();
+
         JLabel label = new JLabel("Solve: ");
         panel.add(label);
 
