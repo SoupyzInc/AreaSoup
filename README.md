@@ -16,7 +16,7 @@ Function bottomFunction = new XSquared(); // y = x^2
 double volume = RevolutionSoup.revolution(0, 1, 3, topFunction, bottomFunction);
 ```
 
-### How to add new functions
+### Adding new functions
 To add new functions, create a new class that `implements` the `Function` interface. `Function` is defined under 
 [Function.java][function] as
 ```java
@@ -34,6 +34,28 @@ public class XCubed implements Function {
 }
 ```
 
+More examples can be found in the [functions folder][functions].
+
+### Adding new problems
+To add new problems, create a new class that `extends` the `Problem` class. `Problem` is defined under 
+[Problem.java][problem]. Each problem must have at least a part (a) and (b), and optionally a part (c). Appropriately
+set `numberOfParts` to the number of parts present, either 2 or 3. For examples of problems, refer to the
+[problems folder][problems].
+
+You must now add code to access your new problem in the GUI. Under [`App.java`][app], in the `setProblems` method, add a
+new `JMenuItem` for the problem like so (replace the `X` in `m1X` with the next available number).
+```java
+JMenuItem m1X = new JMenuItem("Problem Name");
+m1X.addActionListener(ev -> {
+    problem = new ProblemName(); // The problem class you made.
+    ta.setText(problem.solve());
+    setPanel(problem.getNumberOfParts());
+});
+m1.add(m1X);
+```
+
+The rest of the code should handle everything else for you.
+
 ### Attribution
 This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
 Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information. 
@@ -42,7 +64,12 @@ FRQ problems used as examples are from past AP Calculus AB and BC exams. AB prob
 problems [here][bc] on CollegeBoard's website.
 
 [function]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/Function.java
+[functions]: https://github.com/SoupyzInc/RevolutionSoup/tree/main/src/main/java/com/cornycorn/revolutionsoup/functions
 [cubed]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/XCubed.java
+[problem]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/problems/Problem.java
+[problems]: https://github.com/SoupyzInc/RevolutionSoup/tree/main/src/main/java/com/cornycorn/revolutionsoup/problems
+[app]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/App.java
+
 [soupyzinc]: https://github.com/SoupyzInc
 [jojongx]: https://github.com/jojongx
 [license]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/LICENSE
