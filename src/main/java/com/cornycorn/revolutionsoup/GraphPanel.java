@@ -27,7 +27,7 @@ public class GraphPanel extends JPanel {
     private static final int POINT_WIDTH = 4;
     private static final int Y_DIVISIONS = 10;
 
-    private List<Double> datas;
+    private final List<Double> datas;
 
     public GraphPanel(List<Double> datas) {
         this.datas = datas;
@@ -49,50 +49,48 @@ public class GraphPanel extends JPanel {
             graphPoints.add(new Point(x1, y1));
         }
 
-        // draw white background
+        // Fill background.
         g2.setColor(Color.WHITE);
         g2.fillRect(PADDING + LABEL_PADDING, PADDING, getWidth() - (2 * PADDING) - LABEL_PADDING, getHeight() - 2 * PADDING - LABEL_PADDING);
         g2.setColor(Color.BLACK);
 
-        // create hatch marks and grid lines for y axis.
+        // Y axis grid marks and hatch lines.
         for (int i = 0; i < Y_DIVISIONS + 1; i++) {
             int x0 = PADDING + LABEL_PADDING;
             int x1 = POINT_WIDTH + PADDING + LABEL_PADDING;
             int y0 = getHeight() - ((i * (getHeight() - PADDING * 2 - LABEL_PADDING)) / Y_DIVISIONS + PADDING + LABEL_PADDING);
-            int y1 = y0;
             if (datas.size() > 0) {
                 g2.setColor(GRID_COLOR);
-                g2.drawLine(PADDING + LABEL_PADDING + 1 + POINT_WIDTH, y0, getWidth() - PADDING, y1);
+                g2.drawLine(PADDING + LABEL_PADDING + 1 + POINT_WIDTH, y0, getWidth() - PADDING, y0);
                 g2.setColor(Color.BLACK);
                 String yLabel = ((int) ((getMinData() + (getMaxData() - getMinData()) * ((i * 1.0) / Y_DIVISIONS)) * 100)) / 100.0 + "";
                 FontMetrics metrics = g2.getFontMetrics();
                 int labelWidth = metrics.stringWidth(yLabel);
                 g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
             }
-            g2.drawLine(x0, y0, x1, y1);
+            g2.drawLine(x0, y0, x1, y0);
         }
 
-        // and for x axis
+        // X axis grid marks and hatch lines.
         for (int i = 0; i < datas.size(); i++) {
             if (datas.size() > 1) {
                 int x0 = i * (getWidth() - PADDING * 2 - LABEL_PADDING) / (datas.size() - 1) + PADDING + LABEL_PADDING;
-                int x1 = x0;
                 int y0 = getHeight() - PADDING - LABEL_PADDING;
                 int y1 = y0 - POINT_WIDTH;
                 if ((i % ((int) ((datas.size() / 20.0)) + 1)) == 0) {
                     g2.setColor(GRID_COLOR);
-                    g2.drawLine(x0, getHeight() - PADDING - LABEL_PADDING - 1 - POINT_WIDTH, x1, PADDING);
+                    g2.drawLine(x0, getHeight() - PADDING - LABEL_PADDING - 1 - POINT_WIDTH, x0, PADDING);
                     g2.setColor(Color.BLACK);
                     String xLabel = i + "";
                     FontMetrics metrics = g2.getFontMetrics();
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
                 }
-                g2.drawLine(x0, y0, x1, y1);
+                g2.drawLine(x0, y0, x0, y1);
             }
         }
 
-        // create x and y axes 
+        // X and Y axis.
         g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
         g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
 
@@ -109,12 +107,10 @@ public class GraphPanel extends JPanel {
 
         g2.setStroke(oldStroke);
         g2.setColor(POINT_COLOR);
-        for (int i = 0; i < graphPoints.size(); i++) {
-            int x = graphPoints.get(i).x - POINT_WIDTH / 2;
-            int y = graphPoints.get(i).y - POINT_WIDTH / 2;
-            int ovalW = POINT_WIDTH;
-            int ovalH = POINT_WIDTH;
-            g2.fillOval(x, y, ovalW, ovalH);
+        for (Point graphPoint : graphPoints) {
+            int x = graphPoint.x - POINT_WIDTH / 2;
+            int y = graphPoint.y - POINT_WIDTH / 2;
+            g2.fillOval(x, y, POINT_WIDTH, POINT_WIDTH);
         }
     }
 
