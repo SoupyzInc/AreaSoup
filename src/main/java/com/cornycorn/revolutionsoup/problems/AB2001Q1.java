@@ -25,10 +25,4 @@ public class AB2001Q1 extends Problem {
                 "",
                 3);
     }
-
-    /**
-     * Main method for debugging.
-     */
-    public static void main(String[] args) {
-    }
 }
