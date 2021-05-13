@@ -60,7 +60,7 @@ The rest of the code should handle everything else for you.
 This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
 Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information. 
 
-[`GraphPanel.java`][] was based off of [roooodcastro/GraphPanel.java][roooodcastro] on Gist.
+[`GraphPanel.java`][graph] was based off of [roooodcastro/GraphPanel.java][roooodcastro] on Gist.
 
 FRQ problems used as examples are from past AP Calculus AB and BC exams. AB problems can be found [here][ab] and the BC 
 problems [here][bc] on CollegeBoard's website.
@@ -76,6 +76,7 @@ problems [here][bc] on CollegeBoard's website.
 [jojongx]: https://github.com/jojongx
 [license]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/LICENSE
 
+[graph]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/GraphPanel.java
 [roooodcastro]: https://gist.github.com/roooodcastro/6325153
 
 [ab]: https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam/past-exam-questions
