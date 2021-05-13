@@ -1,7 +1,6 @@
 package com.cornycorn.revolutionsoup;
 
 import java.awt.*;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
