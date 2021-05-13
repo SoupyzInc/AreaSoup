@@ -73,9 +73,11 @@ abstract class App extends JFrame implements ActionListener {
         frame.setVisible(true);
 
         // Text area
-        ta.setFont(new Font("Times New Roman", Font.PLAIN,24));
+        ta.setFont(new Font("Times New Roman", Font.PLAIN,20));
         ta.setBorder(new EmptyBorder(5, 10, 10, 10));
         ta.setEditable(false);
+        ta.setLineWrap(true);
+        ta.setWrapStyleWord(true);
 
         // Menu Bar
         setProblems();
