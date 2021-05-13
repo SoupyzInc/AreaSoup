@@ -106,6 +106,41 @@ public class RevolutionSoup {
     }
 
     /**
+     * Returns the points for the right rectangles of a function.
+     *
+     * @param interval The interval or width of the rectangles.
+     * @param dataPoints The total amount of data points to be calculated.
+     * @param function The function to find the right rectangles of.
+     * @return The points to graph the right rectangles.
+     */
+    public static List<Double> rightRiemannSum(int interval, int dataPoints, Function function) {
+        List<Double> datas = new ArrayList<>();
+        int nextInterval = interval;
+        double point = function.f(dataPoints * (Math.PI / 180));
+        for (int i = dataPoints; i > -1; i--) {
+            if ((dataPoints - i) == nextInterval - 1) {
+                point = 0;
+            } else if ((dataPoints - i) == nextInterval) {
+                point = function.f(i * (Math.PI / 180));
+                nextInterval += interval;
+            }
+
+            datas.add(0, point);
+        }
+
+        return datas;
+    }
+
+    public static List<Double> trapezoidal(int interval, int dataPoints, Function function) {
+        List<Double> datas = new ArrayList<>();
+        for (int i = 0; i < dataPoints; i++) {
+            datas.add(function.f(i));
+        }
+
+        return datas;
+    }
+
+    /**
      * Main method for debugging.
      */
     public static void main(String[] args) {

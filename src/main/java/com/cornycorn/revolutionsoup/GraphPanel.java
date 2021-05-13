@@ -1,39 +1,49 @@
 package com.cornycorn.revolutionsoup;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.*;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import com.cornycorn.revolutionsoup.functions.*;
 
 public class GraphPanel extends JPanel {
     private static final int PADDING = 25;
     private static final int LABEL_PADDING = 25;
+
     private static final Color LINE_COLOR_MAIN = new Color(44, 102, 230, 180);
-    private static final Color LINE_COLOR_SECONDARY = new Color(77, 210, 62, 180);
-    private static final Color POINT_COLOR = new Color(100, 100, 100, 180);
+    private static final Color LINE_COLOR_SECONDARY = new Color(215, 128, 84, 180);
+    private static final Color LINE_COLOR_OVER = new Color(77, 210, 62, 180);
+    private static final Color LINE_COLOR_UNDER = new Color(210, 62, 62, 180);
     private static final Color GRID_COLOR = new Color(200, 200, 200, 200);
+
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
+
     private static final int POINT_WIDTH = 4;
     private static final int Y_DIVISIONS = 10;
 
-    private final List<Double> datas;
-    private final List<Double> traps;
+    private static JMenuBar mb = new JMenuBar();
+    private static Function function = new SinX();
+    private static Method method = Method.LEFT;
 
-    public GraphPanel(List<Double> datas, List<Double> traps) {
+    private static GraphPanel mainPanel;
+
+    private enum Method {
+        LEFT, RIGHT, TRAPEZOID, NONE
+    }
+
+    private List<Double> datas;
+    private List<Double> approximationData;
+
+    public GraphPanel(List<Double> datas, List<Double> approximationData) {
         this.datas = datas;
-        this.traps = traps;
+        this.approximationData = approximationData;
+    }
+
+    public static void setData(List<Double> datas, List<Double> approximationData) {
+        mainPanel.datas = datas;
+        mainPanel.approximationData = approximationData;
     }
 
     @Override
@@ -53,11 +63,11 @@ public class GraphPanel extends JPanel {
             graphPoints.add(new Point(x1, y1));
         }
 
-        List<Point> graphPoints1 = new ArrayList<>();
-        for (int i = 0; i < traps.size(); i++) {
+        List<Point> approximationPoints = new ArrayList<>();
+        for (int i = 0; i < approximationData.size(); i++) {
             int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
-            int y1 = (int) ((getMaxData() - traps.get(i)) * yScale + PADDING);
-            graphPoints1.add(new Point(x1, y1));
+            int y1 = (int) ((getMaxData() - approximationData.get(i)) * yScale + PADDING);
+            approximationPoints.add(new Point(x1, y1));
         }
 
         // Fill background.
@@ -105,7 +115,27 @@ public class GraphPanel extends JPanel {
         g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
         g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
 
-//        Stroke oldStroke = g2.getStroke();
+        // Graph approximation
+        g2.setColor(LINE_COLOR_SECONDARY);
+        for (int i = 0; i < approximationPoints.size() - 1; i++) {
+            int x1 = approximationPoints.get(i).x;
+            int y1 = approximationPoints.get(i).y;
+            int x2 = approximationPoints.get(i + 1).x;
+            int y2 = approximationPoints.get(i + 1).y;
+
+            // TODO: Fix colors.
+//            if (y2 > graphPoints.get(i + 1).y) {
+//                g2.setColor(LINE_COLOR_OVER);
+//            } else if (y2 < graphPoints.get(i + 1).y) {
+//                g2.setColor(LINE_COLOR_UNDER);
+//            } else {
+//                g2.setColor(LINE_COLOR_SECONDARY);
+//            }
+
+            g2.drawLine(x1, y1, x2, y2);
+        }
+
+        // Graph data
         g2.setColor(LINE_COLOR_MAIN);
         g2.setStroke(GRAPH_STROKE);
         for (int i = 0; i < graphPoints.size() - 1; i++) {
@@ -115,25 +145,6 @@ public class GraphPanel extends JPanel {
             int y2 = graphPoints.get(i + 1).y;
             g2.drawLine(x1, y1, x2, y2);
         }
-
-        // Draw
-        g2.setColor(LINE_COLOR_SECONDARY);
-        for (int i = 0; i < graphPoints1.size() - 1; i++) {
-            int x1 = graphPoints1.get(i).x;
-            int y1 = graphPoints1.get(i).y;
-            int x2 = graphPoints1.get(i + 1).x;
-            int y2 = graphPoints1.get(i + 1).y;
-            g2.drawLine(x1, y1, x2, y2);
-        }
-
-        // Points
-//        g2.setStroke(oldStroke);
-//        g2.setColor(POINT_COLOR);
-//        for (Point graphPoint : graphPoints) {
-//            int x = graphPoint.x - POINT_WIDTH / 2;
-//            int y = graphPoint.y - POINT_WIDTH / 2;
-//            g2.fillOval(x, y, POINT_WIDTH, POINT_WIDTH);
-//        }
     }
 
     private double getMinData() {
@@ -152,25 +163,125 @@ public class GraphPanel extends JPanel {
         return maxData;
     }
 
-    private static void createAndShowGui() {
+    private static void setValues() {
+        System.out.println("SET");
         // Set values
-        List<Double> datas = new ArrayList<>();
+        List<Double> newDatas = new ArrayList<>();
         int maxDataPoints = 360;
         for (int i = 0; i < maxDataPoints; i++) {
-            Function func = new SinX();
-            datas.add(func.f(i * (Math.PI / 180)));
+            newDatas.add(function.f(i * (Math.PI / 180)));
         }
 
-        List<Double> traps = RevolutionSoup.leftRiemannSum(19, maxDataPoints, new SinX());
-//        for (int i = 0; i < maxDataPoints; i++) {
-//            Function func = new CosX();
-//            traps.add(func.f(i * (Math.PI / 180)));
-//        }
+        List<Double> newApproximationData;
+        switch (method) {
+            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(19, maxDataPoints, function);
+            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(19, maxDataPoints, function);
+            default -> newApproximationData = newDatas;
+        }
+
+        setData(newDatas, newApproximationData);
+        mainPanel.repaint();
+    }
+
+    private static void setProblems() {
+        // Function
+        JMenu fm = new JMenu("Function");
+        mb.add(fm);
+
+        JMenuItem twoXItem = new JMenuItem("2x");
+        twoXItem.addActionListener(ev -> {
+            function = new TwoX();
+            setValues();
+        });
+        fm.add(twoXItem);
+
+        JMenuItem xSquaredItem = new JMenuItem("x²");
+        xSquaredItem.addActionListener(ev -> {
+            function = new XSquared();
+            setValues();
+        });
+        fm.add(xSquaredItem);
+
+        JMenuItem xCubedItem = new JMenuItem("x³");
+        xCubedItem.addActionListener(ev -> {
+            function = new XCubed();
+            setValues();
+        });
+        fm.add(xCubedItem);
+
+        JMenuItem sinItem = new JMenuItem("sin(x)");
+        sinItem.addActionListener(ev -> {
+            function = new SinX();
+            setValues();
+        });
+        fm.add(sinItem);
+
+        JMenuItem cosItem = new JMenuItem("cos(x)");
+        cosItem.addActionListener(ev -> {
+            function = new CosX();
+            setValues();
+        });
+        fm.add(cosItem);
+
+        // Approximation method
+        JMenu am = new JMenu("Approximation");
+        mb.add(am);
+
+        JMenuItem leftItem = new JMenuItem("Left Rectangles");
+        leftItem.addActionListener(ev -> {
+            method = Method.LEFT;
+            setValues();
+        });
+        am.add(leftItem);
+
+        JMenuItem rightItem = new JMenuItem("Right Rectangles");
+        rightItem.addActionListener(ev -> {
+            method = Method.RIGHT;
+            setValues();
+        });
+        am.add(rightItem);
+
+        JMenuItem trapItem = new JMenuItem("Trapezoids");
+        trapItem.addActionListener(ev -> {
+            method = Method.TRAPEZOID;
+            setValues();
+        });
+        am.add(trapItem);
+
+        JMenuItem noneItem = new JMenuItem("None");
+        noneItem.addActionListener(ev -> {
+            method = Method.NONE;
+            setValues();
+        });
+        am.add(noneItem);
+    }
+
+    public static void initialize() {
+        // Set values
+        List<Double> newDatas = new ArrayList<>();
+        int maxDataPoints = 360;
+        for (int i = 0; i < maxDataPoints; i++) {
+            newDatas.add(function.f(i * (Math.PI / 180)));
+        }
+
+        List<Double> newApproximationData;
+        switch (method) {
+            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(19, maxDataPoints, function);
+            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(19, maxDataPoints, function);
+            case TRAPEZOID -> newApproximationData = RevolutionSoup.trapezoidal(19, maxDataPoints, function);
+            default -> newApproximationData = newDatas;
+        }
+
+        mainPanel = new GraphPanel(newDatas, newApproximationData);
 
         // Set GUI
-        GraphPanel mainPanel = new GraphPanel(datas, traps);
-        mainPanel.setPreferredSize(new Dimension(800, 600));
+
         JFrame frame = new JFrame("RevolutionSoup");
+
+        setProblems();
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.getContentPane().add(BorderLayout.NORTH, mb);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(mainPanel);
         frame.pack();
@@ -179,6 +290,6 @@ public class GraphPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GraphPanel::createAndShowGui);
+        SwingUtilities.invokeLater(GraphPanel::initialize);
     }
 }
