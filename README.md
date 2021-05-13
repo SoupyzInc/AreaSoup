@@ -38,7 +38,7 @@ More examples can be found in the [functions folder][functions].
 
 ### Adding new problems
 To add new problems, create a new class that `extends` the `Problem` class. `Problem` is defined under 
-[Problem.java][problem]. Each problem must have at least a part (a) and (b), and optionally a part (c). Appropriately
+[Problem.java][problem]. Each problem must have at least a part (a) and (b), and at most up to a part (c). Appropriately
 set `numberOfParts` to the number of parts present, either 2 or 3. For examples of problems, refer to the
 [problems folder][problems].
 
