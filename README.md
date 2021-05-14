@@ -61,7 +61,7 @@ m1.add(m1X);
 This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
 Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information. 
 
-[`GraphPanel.java`][graph] was based off of [roooodcastro/GraphPanel.java][roooodcastro] on Gist.
+The graphing engine in [`GraphPanel.java`][graph] was based off of [roooodcastro/GraphPanel.java][roooodcastro] on Gist.
 
 FRQ problems used as examples are from past AP Calculus AB and BC exams. AB problems can be found [here][ab] and the BC 
 problems [here][bc] on CollegeBoard's website.
