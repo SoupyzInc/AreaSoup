@@ -8,6 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphPanel extends JPanel {
+    // Enums
+    private enum Method {
+        LEFT, RIGHT, TRAPEZOID, NONE
+    }
+
+    private enum Mode {
+        GRAPH, CALCULATE
+    }
+
     // Graphing constants
     private static final int PADDING = 25;
     private static final int LABEL_PADDING = 25;
@@ -49,15 +58,6 @@ public class GraphPanel extends JPanel {
 
     private static double a = 0;
     private static double b = 1;
-
-    // Enums
-    private enum Method {
-        LEFT, RIGHT, TRAPEZOID, NONE
-    }
-
-    private enum Mode {
-        GRAPH, CALCULATE
-    }
 
     /**
      * Instantiates a new <code>GraphPanel</code> object with data to be graphed.
