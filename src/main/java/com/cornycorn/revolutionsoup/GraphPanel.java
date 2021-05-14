@@ -467,6 +467,7 @@ public class GraphPanel extends JPanel {
         addFunctions();
         addApproximations();
 
+        frame.setPreferredSize(new Dimension(1000, 700));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.getContentPane().add(BorderLayout.NORTH, mb);
