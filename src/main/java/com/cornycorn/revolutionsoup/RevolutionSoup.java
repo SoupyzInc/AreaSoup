@@ -131,6 +131,7 @@ public class RevolutionSoup {
         return datas;
     }
 
+    // TODO: Finish this.
     public static List<Double> trapezoidal(int interval, int dataPoints, Function function) {
         List<Double> datas = new ArrayList<>();
         for (int i = 0; i < dataPoints; i++) {
