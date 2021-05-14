@@ -1,19 +1,6 @@
 # RevolutionSoup
 A Java Swing app to visualize different integral approximation methods and perform basic calculus operations.
 
-### Example Usage
-```java
-import com.cornycorn.revolutionsoup;
-import com.cornycorn.revolutionsoup.functions.*;
-
-// Find the volume of the region bounded by y = x^3 and y = x^2, 
-// rotated about the line y = 3.
-Function topFunction = new XCubed(); // y = x^3
-Function bottomFunction = new XSquared(); // y = x^2
-
-double volume = RevolutionSoup.revolution(0, 1, 3, topFunction, bottomFunction);
-```
-
 ### Adding new functions
 To add new functions, create a new class that `implements` the `Function` interface. `Function` is defined under 
 [Function.java][function] as
@@ -22,20 +9,21 @@ public interface Function {
     double f(double x);
 }
 ```
-An example of a cubic function is defined under [XCubed.java][cubed] as
+
+An example implementation is provided below.
 
 ```java
-public class XCubed implements Function {
+public class YourFunction implements Function {
     public double f(double x) {
-        return Math.pow(x, 3);
+        return /*The y-value that your function should return for x.*/;
     }
 }
 ```
 
 More examples can be found in the [functions folder][functions].
 
-To add new functions to the GUI, find the `addFunctions` method in [`GraphPanel.java`][graph]. Add a new `JMenuItem` to 
-`JMenu fm` like so.
+To add new functions to the GUI, find the `addFunctions` method in [`GraphPanel.java`][graph] and add a new `JMenuItem`
+to `JMenu fm` like so.
 
 ```java
 JMenuItem yourFunctionItem = new JMenuItem("Your Function");
@@ -80,7 +68,6 @@ problems [here][bc] on CollegeBoard's website.
 
 [function]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/Function.java
 [functions]: https://github.com/SoupyzInc/RevolutionSoup/tree/main/src/main/java/com/cornycorn/revolutionsoup/functions
-[cubed]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/XCubed.java
 [problem]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/problems/Problem.java
 [problems]: https://github.com/SoupyzInc/RevolutionSoup/tree/main/src/main/java/com/cornycorn/revolutionsoup/problems
 [app]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/App.java
