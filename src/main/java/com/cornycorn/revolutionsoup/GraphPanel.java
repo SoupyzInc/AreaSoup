@@ -165,15 +165,6 @@ public class GraphPanel extends JPanel {
                 int x2 = approximationPoints.get(i + 1).x;
                 int y2 = approximationPoints.get(i + 1).y;
 
-                // TODO: Fix colors.
-//            if (y2 > graphPoints.get(i + 1).y) {
-//                g2.setColor(LINE_COLOR_OVER);
-//            } else if (y2 < graphPoints.get(i + 1).y) {
-//                g2.setColor(LINE_COLOR_UNDER);
-//            } else {
-//                g2.setColor(LINE_COLOR_SECONDARY);
-//            }
-
                 g2.drawLine(x1, y1, x2, y2);
             }
 
@@ -278,8 +269,11 @@ public class GraphPanel extends JPanel {
         mainPanel.repaint();
     }
 
-    private static void setFunction() {
-        // Modes
+    /**
+     * Adds a Mode <code>JMenuItem</code> to <code>JMenuBar mb</code>.
+     * @see #mb
+     */
+    private static void addModes() {
         JMenu mm = new JMenu("Mode");
         mb.add(mm);
 
@@ -287,7 +281,7 @@ public class GraphPanel extends JPanel {
         graphItem.addActionListener(ev -> {
             mode = Mode.GRAPH;
             setValues();
-            setPanel();
+            addPanel();
         });
         mm.add(graphItem);
 
@@ -297,8 +291,13 @@ public class GraphPanel extends JPanel {
             mainPanel.repaint();
         });
         mm.add(calcItem);
+    }
 
-        // Functions
+    /**
+     * Adds a Function <code> JMenuItem</code> to <code>JMenuBar mb</code>.
+     * @see #mb
+     */
+    private static void addFunctions() {
         JMenu fm = new JMenu("Function");
         mb.add(fm);
 
@@ -357,8 +356,13 @@ public class GraphPanel extends JPanel {
             setValues();
         });
         fm.add(cosItem);
+    }
 
-        // Approximation methods
+    /**
+     * Adds an Approximation <code>JMenuItem</code> to <code>JMenuBar mb</code>.
+     * @see #mb
+     */
+    private static void addApproximations() {
         JMenu am = new JMenu("Approximation");
         mb.add(am);
 
@@ -404,7 +408,7 @@ public class GraphPanel extends JPanel {
      * Creates the panel to change the interval width and domain when graphing.
      * @see #panel
      */
-    public static void setPanel() {
+    public static void addPanel() {
         JLabel deltaXLabel = new JLabel("∆x:");
         panel.add(deltaXLabel);
 
@@ -458,8 +462,12 @@ public class GraphPanel extends JPanel {
         // Set GUI
         frame = new JFrame("RevolutionSoup");
 
-        setFunction();
-        setPanel();
+        addPanel();
+
+        // Menu bar
+        addModes();
+        addFunctions();
+        addApproximations();
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);

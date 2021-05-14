@@ -36,13 +36,14 @@ public class XCubed implements Function {
 
 More examples can be found in the [functions folder][functions].
 
-To add new functions to the GUI, find the `setFunction` method in [`GraphPanel.java`][graph]. Add a new `JMenuItem` to 
+To add new functions to the GUI, find the `addFunctions` method in [`GraphPanel.java`][graph]. Add a new `JMenuItem` to 
 `JMenu fm` like so.
 
 ```java
 JMenuItem yourFunctionItem = new JMenuItem("Your Function");
 yourFunctionItem.addActionListener(ev -> {
     function = new YourFunction();
+    functionName = "Your Function";
     setValues();
 });
 fm.add(yourFunctionItem);
