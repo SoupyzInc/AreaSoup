@@ -23,8 +23,12 @@ public class GraphPanel extends JPanel {
     private static final int Y_DIVISIONS = 10;
 
     private static JMenuBar mb = new JMenuBar();
+    private static JPanel panel = new JPanel();
+
     private static Function function = new SinX();
     private static Method method = Method.LEFT;
+    private static int interval = 20;
+    private static int maxDataPoints = 361;
 
     private static GraphPanel mainPanel;
 
@@ -163,18 +167,16 @@ public class GraphPanel extends JPanel {
     }
 
     private static void setValues() {
-        System.out.println("SET");
         // Set values
         List<Double> newDatas = new ArrayList<>();
-        int maxDataPoints = 360;
         for (int i = 0; i < maxDataPoints; i++) {
             newDatas.add(function.f(i * (Math.PI / 180)));
         }
 
         List<Double> newApproximationData;
         switch (method) {
-            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(19, maxDataPoints, function);
-            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(19, maxDataPoints, function);
+            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(interval, maxDataPoints, function);
+            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(interval, maxDataPoints, function);
             default -> newApproximationData = newDatas;
         }
 
@@ -183,7 +185,7 @@ public class GraphPanel extends JPanel {
     }
 
     private static void setProblems() {
-        // Function
+        // Functions
         JMenu fm = new JMenu("Function");
         mb.add(fm);
 
@@ -222,7 +224,7 @@ public class GraphPanel extends JPanel {
         });
         fm.add(cosItem);
 
-        // Approximation method
+        // Approximation methods
         JMenu am = new JMenu("Approximation");
         mb.add(am);
 
@@ -255,19 +257,47 @@ public class GraphPanel extends JPanel {
         am.add(noneItem);
     }
 
+    public static void setPanel() {
+        JLabel deltaXLabel = new JLabel("∆x: ");
+        panel.add(deltaXLabel);
+
+        JTextField deltaXText = new JTextField(3);
+        deltaXText.addActionListener(ev -> {
+            interval = Integer.parseInt(deltaXText.getText());
+            setValues();
+        });
+        panel.add(deltaXText);
+
+        panel.add(new JSeparator(SwingConstants.VERTICAL));
+
+        JLabel domainLabelPre = new JLabel("Domain: [0, ");
+        panel.add(domainLabelPre);
+
+        JTextField domainText = new JTextField(3);
+        domainText.addActionListener(ev -> {
+            maxDataPoints = Integer.parseInt(domainText.getText()) + 1;
+            setValues();
+        });
+        panel.add(domainText);
+
+        JLabel domainLabelPost = new JLabel("] (Integer in degrees)");
+        panel.add(domainLabelPost);
+
+        panel.add(new JSeparator(SwingConstants.VERTICAL));
+    }
+
     public static void initialize() {
         // Set values
         List<Double> newDatas = new ArrayList<>();
-        int maxDataPoints = 360;
         for (int i = 0; i < maxDataPoints; i++) {
             newDatas.add(function.f(i * (Math.PI / 180)));
         }
 
         List<Double> newApproximationData;
         switch (method) {
-            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(19, maxDataPoints, function);
-            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(19, maxDataPoints, function);
-            case TRAPEZOID -> newApproximationData = RevolutionSoup.trapezoidal(19, maxDataPoints, function);
+            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(interval, maxDataPoints, function);
+            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(interval, maxDataPoints, function);
+            case TRAPEZOID -> newApproximationData = RevolutionSoup.trapezoidal(interval, maxDataPoints, function);
             default -> newApproximationData = newDatas;
         }
 
@@ -278,7 +308,9 @@ public class GraphPanel extends JPanel {
         JFrame frame = new JFrame("RevolutionSoup");
 
         setProblems();
+        setPanel();
 
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().add(BorderLayout.NORTH, mb);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
