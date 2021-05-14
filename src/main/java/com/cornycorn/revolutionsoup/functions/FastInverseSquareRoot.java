@@ -1,5 +1,9 @@
 package com.cornycorn.revolutionsoup.functions;
 
+/**
+ * An implementation of the <code>Function</code> interface. Uses the famous fast inverse square root algorithm
+ * from Quake III's source code.
+ */
 public class FastInverseSquareRoot implements Function {
     @Override
     public double f(double x) {
