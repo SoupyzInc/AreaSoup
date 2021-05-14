@@ -22,7 +22,7 @@ public class GraphPanel extends JPanel {
     private static final int Y_DIVISIONS = 10;
 
     // Frame
-    private static JFrame frame;
+    private static JFrame frame = new JFrame("RevolutionSoup");
     private static JMenuBar mb = new JMenuBar();
 
     // Graph objects
@@ -460,8 +460,6 @@ public class GraphPanel extends JPanel {
         mainPanel.setLayout(new java.awt.BorderLayout());
 
         // Set GUI
-        frame = new JFrame("RevolutionSoup");
-
         addPanel();
 
         // Menu bar
