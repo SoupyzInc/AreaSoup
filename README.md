@@ -36,6 +36,21 @@ public class XCubed implements Function {
 
 More examples can be found in the [functions folder][functions].
 
+To add new functions to the GUI, find the `setFunction` method in [`GraphPanel.java`][graph]. Add a new `JMenuItem` to 
+`JMenu fm` like so.
+
+```java
+JMenuItem yourFunctionItem = new JMenuItem("Your Function");
+yourFunctionItem.addActionListener(ev -> {
+    function = new YourFunction();
+    setValues();
+});
+fm.add(yourFunctionItem);
+```
+
+The rest of the code should handle everything else for you.
+
+<!--
 ### Adding new problems
 To add new problems, create a new class that `extends` the `Problem` class. `Problem` is defined under 
 [Problem.java][problem]. Each problem must have at least a part (a) and (b), and at most up to a part (c). Appropriately
@@ -53,8 +68,7 @@ m1X.addActionListener(ev -> {
 });
 m1.add(m1X);
 ```
-
-The rest of the code should handle everything else for you.
+-->
 
 ### Attribution
 This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
