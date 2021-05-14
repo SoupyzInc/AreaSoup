@@ -177,6 +177,7 @@ public class GraphPanel extends JPanel {
         switch (method) {
             case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(interval, maxDataPoints, function);
             case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(interval, maxDataPoints, function);
+            case TRAPEZOID -> newApproximationData = RevolutionSoup.trapezoidal(interval, maxDataPoints, function);
             default -> newApproximationData = newDatas;
         }
 
@@ -184,7 +185,7 @@ public class GraphPanel extends JPanel {
         mainPanel.repaint();
     }
 
-    private static void setProblems() {
+    private static void setFunction() {
         // Functions
         JMenu fm = new JMenu("Function");
         mb.add(fm);
@@ -209,6 +210,20 @@ public class GraphPanel extends JPanel {
             setValues();
         });
         fm.add(xCubedItem);
+
+        JMenuItem SquareRootXItem = new JMenuItem("√x");
+        SquareRootXItem.addActionListener(ev -> {
+            function = new SquareRootX();
+            setValues();
+        });
+        fm.add(SquareRootXItem);
+
+        JMenuItem FastInverseSquareRootItem = new JMenuItem("1/√x but fast");
+        FastInverseSquareRootItem.addActionListener(ev -> {
+            function = new FastInverseSquareRoot();
+            setValues();
+        });
+        fm.add(FastInverseSquareRootItem);
 
         JMenuItem sinItem = new JMenuItem("sin(x)");
         sinItem.addActionListener(ev -> {
@@ -304,14 +319,13 @@ public class GraphPanel extends JPanel {
         mainPanel = new GraphPanel(newDatas, newApproximationData);
 
         // Set GUI
-
         JFrame frame = new JFrame("RevolutionSoup");
 
-        setProblems();
+        setFunction();
         setPanel();
 
-        frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.getContentPane().add(BorderLayout.NORTH, mb);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(mainPanel);
