@@ -8,13 +8,12 @@ import javax.swing.*;
 import com.cornycorn.revolutionsoup.functions.*;
 
 public class GraphPanel extends JPanel {
+    // Graphing constants
     private static final int PADDING = 25;
     private static final int LABEL_PADDING = 25;
 
     private static final Color LINE_COLOR_MAIN = new Color(44, 102, 230, 180);
     private static final Color LINE_COLOR_SECONDARY = new Color(215, 128, 84, 180);
-    private static final Color LINE_COLOR_OVER = new Color(77, 210, 62, 180);
-    private static final Color LINE_COLOR_UNDER = new Color(210, 62, 62, 180);
     private static final Color GRID_COLOR = new Color(200, 200, 200, 200);
 
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
@@ -22,28 +21,63 @@ public class GraphPanel extends JPanel {
     private static final int POINT_WIDTH = 4;
     private static final int Y_DIVISIONS = 10;
 
+    // Frame
+    private static JFrame frame;
     private static JMenuBar mb = new JMenuBar();
+
+    // Graph objects
+    private static GraphPanel mainPanel;
     private static JPanel panel = new JPanel();
 
+    // Calculate objects
+    private static JPanel calcPanel = new JPanel();
+    private static JPanel answerPanel = new JPanel();
+    private static JLabel integralLabel;
+
+    // Static variables
     private static Function function = new SinX();
+    private static String functionName = "sin(x)";
+
     private static Method method = Method.LEFT;
+    private static Mode mode = Mode.GRAPH;
+
     private static int interval = 20;
     private static int maxDataPoints = 361;
-
-    private static GraphPanel mainPanel;
-
-    private enum Method {
-        LEFT, RIGHT, TRAPEZOID, NONE
-    }
 
     private List<Double> datas;
     private List<Double> approximationData;
 
+    private static double a = 0;
+    private static double b = 1;
+
+    // Enums
+    private enum Method {
+        LEFT, RIGHT, TRAPEZOID, NONE
+    }
+
+    private enum Mode {
+        GRAPH, CALCULATE
+    }
+
+    /**
+     * Instantiates a new <code>GraphPanel</code> object with data to be graphed.
+     * @param datas The y-values of the main function.
+     * @param approximationData The y-values of the function approximation.
+     * @see #datas
+     * @see #approximationData
+     */
     public GraphPanel(List<Double> datas, List<Double> approximationData) {
         this.datas = datas;
         this.approximationData = approximationData;
     }
 
+    /**
+     * Sets new data to be graphed.
+     * @param datas The y-values of the main function.
+     * @param approximationData The y-values of the function approximation.
+     * @see #datas
+     * @see #approximationData
+     */
     public static void setData(List<Double> datas, List<Double> approximationData) {
         mainPanel.datas = datas;
         mainPanel.approximationData = approximationData;
@@ -52,81 +86,86 @@ public class GraphPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if (mode == Mode.GRAPH) {
+            // Clear panels
+            calcPanel.removeAll();
+            calcPanel.revalidate();
 
-        double xScale = ((double) getWidth() - (2 * PADDING) - LABEL_PADDING) / (datas.size() - 1);
-        double yScale = ((double) getHeight() - 2 * PADDING - LABEL_PADDING) / (getMaxData() - getMinData());
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Set graph points
-        List<Point> graphPoints = new ArrayList<>();
-        for (int i = 0; i < datas.size(); i++) {
-            int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
-            int y1 = (int) ((getMaxData() - datas.get(i)) * yScale + PADDING);
-            graphPoints.add(new Point(x1, y1));
-        }
+            double xScale = ((double) getWidth() - (2 * PADDING) - LABEL_PADDING) / (datas.size() - 1);
+            double yScale = ((double) getHeight() - 2 * PADDING - LABEL_PADDING) / (getMaxData() - getMinData());
 
-        List<Point> approximationPoints = new ArrayList<>();
-        for (int i = 0; i < approximationData.size(); i++) {
-            int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
-            int y1 = (int) ((getMaxData() - approximationData.get(i)) * yScale + PADDING);
-            approximationPoints.add(new Point(x1, y1));
-        }
-
-        // Fill background.
-        g2.setColor(Color.WHITE);
-        g2.fillRect(PADDING + LABEL_PADDING, PADDING, getWidth() - (2 * PADDING) - LABEL_PADDING, getHeight() - 2 * PADDING - LABEL_PADDING);
-        g2.setColor(Color.BLACK);
-
-        // Y axis grid marks and hatch lines.
-        for (int i = 0; i < Y_DIVISIONS + 1; i++) {
-            int x0 = PADDING + LABEL_PADDING;
-            int x1 = POINT_WIDTH + PADDING + LABEL_PADDING;
-            int y0 = getHeight() - ((i * (getHeight() - PADDING * 2 - LABEL_PADDING)) / Y_DIVISIONS + PADDING + LABEL_PADDING);
-            if (datas.size() > 0) {
-                g2.setColor(GRID_COLOR);
-                g2.drawLine(PADDING + LABEL_PADDING + 1 + POINT_WIDTH, y0, getWidth() - PADDING, y0);
-                g2.setColor(Color.BLACK);
-                String yLabel = ((int) ((getMinData() + (getMaxData() - getMinData()) * ((i * 1.0) / Y_DIVISIONS)) * 100)) / 100.0 + "";
-                FontMetrics metrics = g2.getFontMetrics();
-                int labelWidth = metrics.stringWidth(yLabel);
-                g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+            // Set graph points
+            List<Point> graphPoints = new ArrayList<>();
+            for (int i = 0; i < datas.size(); i++) {
+                int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
+                int y1 = (int) ((getMaxData() - datas.get(i)) * yScale + PADDING);
+                graphPoints.add(new Point(x1, y1));
             }
-            g2.drawLine(x0, y0, x1, y0);
-        }
 
-        // X axis grid marks and hatch lines.
-        for (int i = 0; i < datas.size(); i++) {
-            if (datas.size() > 1) {
-                int x0 = i * (getWidth() - PADDING * 2 - LABEL_PADDING) / (datas.size() - 1) + PADDING + LABEL_PADDING;
-                int y0 = getHeight() - PADDING - LABEL_PADDING;
-                int y1 = y0 - POINT_WIDTH;
-                if ((i % ((int) ((datas.size() / 20.0)) + 1)) == 0) {
+            List<Point> approximationPoints = new ArrayList<>();
+            for (int i = 0; i < approximationData.size(); i++) {
+                int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
+                int y1 = (int) ((getMaxData() - approximationData.get(i)) * yScale + PADDING);
+                approximationPoints.add(new Point(x1, y1));
+            }
+
+            // Fill background.
+            g2.setColor(Color.WHITE);
+            g2.fillRect(PADDING + LABEL_PADDING, PADDING, getWidth() - (2 * PADDING) - LABEL_PADDING, getHeight() - 2 * PADDING - LABEL_PADDING);
+            g2.setColor(Color.BLACK);
+
+            // Y axis grid marks and hatch lines.
+            for (int i = 0; i < Y_DIVISIONS + 1; i++) {
+                int x0 = PADDING + LABEL_PADDING;
+                int x1 = POINT_WIDTH + PADDING + LABEL_PADDING;
+                int y0 = getHeight() - ((i * (getHeight() - PADDING * 2 - LABEL_PADDING)) / Y_DIVISIONS + PADDING + LABEL_PADDING);
+                if (datas.size() > 0) {
                     g2.setColor(GRID_COLOR);
-                    g2.drawLine(x0, getHeight() - PADDING - LABEL_PADDING - 1 - POINT_WIDTH, x0, PADDING);
+                    g2.drawLine(PADDING + LABEL_PADDING + 1 + POINT_WIDTH, y0, getWidth() - PADDING, y0);
                     g2.setColor(Color.BLACK);
-                    String xLabel = i + "";
+                    String yLabel = ((int) ((getMinData() + (getMaxData() - getMinData()) * ((i * 1.0) / Y_DIVISIONS)) * 100)) / 100.0 + "";
                     FontMetrics metrics = g2.getFontMetrics();
-                    int labelWidth = metrics.stringWidth(xLabel);
-                    g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
+                    int labelWidth = metrics.stringWidth(yLabel);
+                    g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
                 }
-                g2.drawLine(x0, y0, x0, y1);
+                g2.drawLine(x0, y0, x1, y0);
             }
-        }
 
-        // X and Y axis.
-        g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
-        g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
+            // X axis grid marks and hatch lines.
+            for (int i = 0; i < datas.size(); i++) {
+                if (datas.size() > 1) {
+                    int x0 = i * (getWidth() - PADDING * 2 - LABEL_PADDING) / (datas.size() - 1) + PADDING + LABEL_PADDING;
+                    int y0 = getHeight() - PADDING - LABEL_PADDING;
+                    int y1 = y0 - POINT_WIDTH;
+                    if ((i % ((int) ((datas.size() / 20.0)) + 1)) == 0) {
+                        g2.setColor(GRID_COLOR);
+                        g2.drawLine(x0, getHeight() - PADDING - LABEL_PADDING - 1 - POINT_WIDTH, x0, PADDING);
+                        g2.setColor(Color.BLACK);
+                        String xLabel = i + "";
+                        FontMetrics metrics = g2.getFontMetrics();
+                        int labelWidth = metrics.stringWidth(xLabel);
+                        g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
+                    }
+                    g2.drawLine(x0, y0, x0, y1);
+                }
+            }
 
-        // Graph approximation
-        g2.setColor(LINE_COLOR_SECONDARY);
-        for (int i = 0; i < approximationPoints.size() - 1; i++) {
-            int x1 = approximationPoints.get(i).x;
-            int y1 = approximationPoints.get(i).y;
-            int x2 = approximationPoints.get(i + 1).x;
-            int y2 = approximationPoints.get(i + 1).y;
+            // X and Y axis.
+            g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
+            g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
 
-            // TODO: Fix colors.
+            // Graph approximation
+            g2.setColor(LINE_COLOR_SECONDARY);
+            for (int i = 0; i < approximationPoints.size() - 1; i++) {
+                int x1 = approximationPoints.get(i).x;
+                int y1 = approximationPoints.get(i).y;
+                int x2 = approximationPoints.get(i + 1).x;
+                int y2 = approximationPoints.get(i + 1).y;
+
+                // TODO: Fix colors.
 //            if (y2 > graphPoints.get(i + 1).y) {
 //                g2.setColor(LINE_COLOR_OVER);
 //            } else if (y2 < graphPoints.get(i + 1).y) {
@@ -135,21 +174,67 @@ public class GraphPanel extends JPanel {
 //                g2.setColor(LINE_COLOR_SECONDARY);
 //            }
 
-            g2.drawLine(x1, y1, x2, y2);
-        }
+                g2.drawLine(x1, y1, x2, y2);
+            }
 
-        // Graph data
-        g2.setColor(LINE_COLOR_MAIN);
-        g2.setStroke(GRAPH_STROKE);
-        for (int i = 0; i < graphPoints.size() - 1; i++) {
-            int x1 = graphPoints.get(i).x;
-            int y1 = graphPoints.get(i).y;
-            int x2 = graphPoints.get(i + 1).x;
-            int y2 = graphPoints.get(i + 1).y;
-            g2.drawLine(x1, y1, x2, y2);
+            // Graph data
+            g2.setColor(LINE_COLOR_MAIN);
+            g2.setStroke(GRAPH_STROKE);
+            for (int i = 0; i < graphPoints.size() - 1; i++) {
+                int x1 = graphPoints.get(i).x;
+                int y1 = graphPoints.get(i).y;
+                int x2 = graphPoints.get(i + 1).x;
+                int y2 = graphPoints.get(i + 1).y;
+                g2.drawLine(x1, y1, x2, y2);
+            }
+        } else {
+            // Clear panels
+            panel.removeAll();
+            panel.revalidate();
+            mainPanel.removeAll();
+            mainPanel.revalidate();
+
+            calcPanel.removeAll();
+            calcPanel.revalidate();
+            answerPanel.removeAll();
+            answerPanel.revalidate();
+
+
+            // Add calculate features
+            JLabel aLabel = new JLabel("a:");
+            calcPanel.add(aLabel);
+
+            JTextField aText = new JTextField(Double.toString(a), 3);
+            aText.addActionListener(ev -> {
+                a = Double.parseDouble(aText.getText());
+                setAnswer();
+            });
+            calcPanel.add(aText);
+
+            JLabel bLabel = new JLabel("b:");
+            calcPanel.add(bLabel);
+
+            JTextField bText = new JTextField(Double.toString(b), 3);
+            bText.addActionListener(ev -> {
+                b = Double.parseDouble(bText.getText());
+                setAnswer();
+            });
+            calcPanel.add(bText);
+
+            double answer = RevolutionSoup.integrate(a, b, function);
+
+            integralLabel = new JLabel("∫ " + functionName + " dx = " + answer);
+            calcPanel.add(integralLabel);
+
+            frame.getContentPane().add(calcPanel);
         }
     }
 
+    /**
+     * Finds the smallest data point in <code>datas</code> to allow for proper scaling when graphing.
+     * @return The smallest data point.
+     * @see #datas
+     */
     private double getMinData() {
         double minData = Double.MAX_VALUE;
         for (Double data : datas) {
@@ -158,6 +243,11 @@ public class GraphPanel extends JPanel {
         return minData;
     }
 
+    /**
+     * Finds the greatest data point in <code>datas</code> to allow for proper scaling when graphing.
+     * @return The greatest data point.
+     * @see #datas
+     */
     private double getMaxData() {
         double maxData = Double.MIN_VALUE;
         for (Double data : datas) {
@@ -166,6 +256,9 @@ public class GraphPanel extends JPanel {
         return maxData;
     }
 
+    /**
+     * Sets new values to be graphed when the function, interval, or data points change.
+     */
     private static void setValues() {
         // Set values
         List<Double> newDatas = new ArrayList<>();
@@ -186,6 +279,25 @@ public class GraphPanel extends JPanel {
     }
 
     private static void setFunction() {
+        // Modes
+        JMenu mm = new JMenu("Mode");
+        mb.add(mm);
+
+        JMenuItem graphItem = new JMenuItem("Graph");
+        graphItem.addActionListener(ev -> {
+            mode = Mode.GRAPH;
+            setValues();
+            setPanel();
+        });
+        mm.add(graphItem);
+
+        JMenuItem calcItem = new JMenuItem("Calculate");
+        calcItem.addActionListener(ev -> {
+            mode = Mode.CALCULATE;
+            mainPanel.repaint();
+        });
+        mm.add(calcItem);
+
         // Functions
         JMenu fm = new JMenu("Function");
         mb.add(fm);
@@ -193,6 +305,7 @@ public class GraphPanel extends JPanel {
         JMenuItem twoXItem = new JMenuItem("2x");
         twoXItem.addActionListener(ev -> {
             function = new TwoX();
+            functionName = "2x";
             setValues();
         });
         fm.add(twoXItem);
@@ -200,6 +313,7 @@ public class GraphPanel extends JPanel {
         JMenuItem xSquaredItem = new JMenuItem("x²");
         xSquaredItem.addActionListener(ev -> {
             function = new XSquared();
+            functionName = "x²";
             setValues();
         });
         fm.add(xSquaredItem);
@@ -207,6 +321,7 @@ public class GraphPanel extends JPanel {
         JMenuItem xCubedItem = new JMenuItem("x³");
         xCubedItem.addActionListener(ev -> {
             function = new XCubed();
+            functionName = "x³";
             setValues();
         });
         fm.add(xCubedItem);
@@ -214,6 +329,7 @@ public class GraphPanel extends JPanel {
         JMenuItem SquareRootXItem = new JMenuItem("√x");
         SquareRootXItem.addActionListener(ev -> {
             function = new SquareRootX();
+            functionName = "√x";
             setValues();
         });
         fm.add(SquareRootXItem);
@@ -221,6 +337,7 @@ public class GraphPanel extends JPanel {
         JMenuItem FastInverseSquareRootItem = new JMenuItem("1/√x but fast");
         FastInverseSquareRootItem.addActionListener(ev -> {
             function = new FastInverseSquareRoot();
+            functionName = "1/√x";
             setValues();
         });
         fm.add(FastInverseSquareRootItem);
@@ -228,6 +345,7 @@ public class GraphPanel extends JPanel {
         JMenuItem sinItem = new JMenuItem("sin(x)");
         sinItem.addActionListener(ev -> {
             function = new SinX();
+            functionName = "sin(x)";
             setValues();
         });
         fm.add(sinItem);
@@ -235,6 +353,7 @@ public class GraphPanel extends JPanel {
         JMenuItem cosItem = new JMenuItem("cos(x)");
         cosItem.addActionListener(ev -> {
             function = new CosX();
+            functionName = "cos(x)";
             setValues();
         });
         fm.add(cosItem);
@@ -272,11 +391,24 @@ public class GraphPanel extends JPanel {
         am.add(noneItem);
     }
 
+    /**
+     * Sets the answer for integral calculations.
+     * @see #integralLabel
+     */
+    private static void setAnswer() {
+        double answer = RevolutionSoup.integrate(a, b, function);
+        integralLabel.setText("∫ " + functionName + " dx = " + answer);
+    }
+
+    /**
+     * Creates the panel to change the interval width and domain when graphing.
+     * @see #panel
+     */
     public static void setPanel() {
-        JLabel deltaXLabel = new JLabel("∆x: ");
+        JLabel deltaXLabel = new JLabel("∆x:");
         panel.add(deltaXLabel);
 
-        JTextField deltaXText = new JTextField("20", 3);
+        JTextField deltaXText = new JTextField(Integer.toString(interval), 3);
         deltaXText.addActionListener(ev -> {
             interval = Integer.parseInt(deltaXText.getText());
             setValues();
@@ -285,10 +417,10 @@ public class GraphPanel extends JPanel {
 
         panel.add(new JSeparator(SwingConstants.VERTICAL));
 
-        JLabel domainLabelPre = new JLabel("Domain: [0, ");
+        JLabel domainLabelPre = new JLabel("Domain: [0,");
         panel.add(domainLabelPre);
 
-        JTextField domainText = new JTextField("360", 3);
+        JTextField domainText = new JTextField(Integer.toString(maxDataPoints - 1), 3);
         domainText.addActionListener(ev -> {
             maxDataPoints = Integer.parseInt(domainText.getText()) + 1;
             setValues();
@@ -299,8 +431,12 @@ public class GraphPanel extends JPanel {
         panel.add(domainLabelPost);
 
         panel.add(new JSeparator(SwingConstants.VERTICAL));
+        panel.revalidate();
     }
 
+    /**
+     * Initializes values to be graphed and the GUI.
+     */
     public static void initialize() {
         // Set values
         List<Double> newDatas = new ArrayList<>();
@@ -317,9 +453,10 @@ public class GraphPanel extends JPanel {
         }
 
         mainPanel = new GraphPanel(newDatas, newApproximationData);
+        mainPanel.setLayout(new java.awt.BorderLayout());
 
         // Set GUI
-        JFrame frame = new JFrame("RevolutionSoup");
+        frame = new JFrame("RevolutionSoup");
 
         setFunction();
         setPanel();
