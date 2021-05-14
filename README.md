@@ -1,7 +1,5 @@
 # RevolutionSoup
-Ultimately, a Java app that gives a guided walk through on volume of revolution problems
-from the Type 4 FRQs packet, `RevolutionSoup` is a basic calculus engine that can integrate functions and solve
-volume of revolution problems.
+A Java Swing app to visualize different integral approximation methods and perform basic calculus operations.
 
 ### Example Usage
 ```java
