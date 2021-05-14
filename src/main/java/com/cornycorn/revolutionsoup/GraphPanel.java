@@ -276,7 +276,7 @@ public class GraphPanel extends JPanel {
         JLabel deltaXLabel = new JLabel("∆x: ");
         panel.add(deltaXLabel);
 
-        JTextField deltaXText = new JTextField(3);
+        JTextField deltaXText = new JTextField("20", 3);
         deltaXText.addActionListener(ev -> {
             interval = Integer.parseInt(deltaXText.getText());
             setValues();
@@ -288,7 +288,7 @@ public class GraphPanel extends JPanel {
         JLabel domainLabelPre = new JLabel("Domain: [0, ");
         panel.add(domainLabelPre);
 
-        JTextField domainText = new JTextField(3);
+        JTextField domainText = new JTextField("360", 3);
         domainText.addActionListener(ev -> {
             maxDataPoints = Integer.parseInt(domainText.getText()) + 1;
             setValues();
