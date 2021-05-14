@@ -1,9 +1,6 @@
 package com.cornycorn.revolutionsoup;
 
-import com.cornycorn.revolutionsoup.functions.Function;
-import com.cornycorn.revolutionsoup.functions.SinX;
-import com.cornycorn.revolutionsoup.functions.Squared;
-import com.cornycorn.revolutionsoup.functions.XAxis;
+import com.cornycorn.revolutionsoup.functions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,15 +138,20 @@ public class RevolutionSoup {
      */
     public static List<Double> trapezoidal(int interval, int dataPoints, Function function) {
         // TODO: Finish this.
+        double slope = (function.f(interval) - function.f(0)) / interval;
         List<Double> datas = new ArrayList<>();
         int nextInterval = interval;
         double point = function.f(0);
-        for (int i = 0; i < dataPoints; i++) {
-            if (i == nextInterval - 1) {
+        for (int x = 0; x < dataPoints; x++) {
+            if (x == nextInterval - 1) {
                 point = 0;
-            } else if (i == nextInterval) {
-                point = function.f(i * (Math.PI / 180));
+            } else if (x == nextInterval) {
+                point = function.f(x * (Math.PI / 180));
                 nextInterval += interval;
+                slope = (function.f(nextInterval) - function.f(nextInterval - interval)) / interval;
+            } else {
+                double interValue = slope * x;
+                point = interValue;
             }
 
             datas.add(point);
