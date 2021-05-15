@@ -41,11 +41,14 @@ public class GraphPanel extends JPanel {
     // Calculate objects
     private static JPanel calcPanel = new JPanel();
     private static JPanel answerPanel = new JPanel();
+    private static JLabel infoLabel = new JLabel();
     private static JLabel integralLabel;
 
     // Static variables
     private static Function function = new SinX();
     private static String functionName = "sin(x)";
+
+    private static String methodName = "left Riemann sums";
 
     private static Method method = Method.LEFT;
     private static Mode mode = Mode.GRAPH;
@@ -305,6 +308,7 @@ public class GraphPanel extends JPanel {
         twoXItem.addActionListener(ev -> {
             function = new TwoX();
             functionName = "2x";
+            updateInfoLabel();
             setValues();
         });
         fm.add(twoXItem);
@@ -313,6 +317,7 @@ public class GraphPanel extends JPanel {
         xSquaredItem.addActionListener(ev -> {
             function = new XSquared();
             functionName = "x²";
+            updateInfoLabel();
             setValues();
         });
         fm.add(xSquaredItem);
@@ -321,6 +326,7 @@ public class GraphPanel extends JPanel {
         xCubedItem.addActionListener(ev -> {
             function = new XCubed();
             functionName = "x³";
+            updateInfoLabel();
             setValues();
         });
         fm.add(xCubedItem);
@@ -329,6 +335,7 @@ public class GraphPanel extends JPanel {
         SquareRootXItem.addActionListener(ev -> {
             function = new SquareRootX();
             functionName = "√x";
+            updateInfoLabel();
             setValues();
         });
         fm.add(SquareRootXItem);
@@ -337,6 +344,7 @@ public class GraphPanel extends JPanel {
         FastInverseSquareRootItem.addActionListener(ev -> {
             function = new FastInverseSquareRoot();
             functionName = "1/√x";
+            updateInfoLabel();
             setValues();
         });
         fm.add(FastInverseSquareRootItem);
@@ -345,6 +353,7 @@ public class GraphPanel extends JPanel {
         sinItem.addActionListener(ev -> {
             function = new SinX();
             functionName = "sin(x)";
+            updateInfoLabel();
             setValues();
         });
         fm.add(sinItem);
@@ -353,6 +362,7 @@ public class GraphPanel extends JPanel {
         cosItem.addActionListener(ev -> {
             function = new CosX();
             functionName = "cos(x)";
+            updateInfoLabel();
             setValues();
         });
         fm.add(cosItem);
@@ -366,23 +376,29 @@ public class GraphPanel extends JPanel {
         JMenu am = new JMenu("Approximation");
         mb.add(am);
 
-        JMenuItem leftItem = new JMenuItem("Left Rectangles");
+        JMenuItem leftItem = new JMenuItem("Left Riemann sums");
         leftItem.addActionListener(ev -> {
             method = Method.LEFT;
+            methodName = "left Riemann sums";
+            updateInfoLabel();
             setValues();
         });
         am.add(leftItem);
 
-        JMenuItem rightItem = new JMenuItem("Right Rectangles");
+        JMenuItem rightItem = new JMenuItem("Right Riemann sums");
         rightItem.addActionListener(ev -> {
             method = Method.RIGHT;
+            methodName = "right Riemann sums";
+            updateInfoLabel();
             setValues();
         });
         am.add(rightItem);
 
-        JMenuItem trapItem = new JMenuItem("Trapezoids");
+        JMenuItem trapItem = new JMenuItem("Trapezoidal approximation");
         trapItem.addActionListener(ev -> {
             method = Method.TRAPEZOID;
+            methodName = "trapezoids";
+            updateInfoLabel();
             setValues();
         });
         am.add(trapItem);
@@ -390,6 +406,7 @@ public class GraphPanel extends JPanel {
         JMenuItem noneItem = new JMenuItem("None");
         noneItem.addActionListener(ev -> {
             method = Method.NONE;
+            updateInfoLabel();
             setValues();
         });
         am.add(noneItem);
@@ -404,11 +421,28 @@ public class GraphPanel extends JPanel {
         integralLabel.setText("∫ " + functionName + " dx = " + answer);
     }
 
+    private static void updateInfoLabel() {
+        if (method != Method.NONE) {
+            infoLabel.setText("Approximating " + functionName + " using " + methodName + "   | ");
+        } else {
+            infoLabel.setText("Graphing " + functionName + "   | ");
+        }
+
+        infoLabel.revalidate();
+    }
+
     /**
      * Creates the panel to change the interval width and domain when graphing.
      * @see #panel
      */
     public static void addPanel() {
+        if (method != Method.NONE) {
+            infoLabel = new JLabel("Approximating " + functionName + " using " + methodName + "   | ");
+        } else {
+            infoLabel = new JLabel("Graphing " + functionName + "   | ");
+        }
+        panel.add(infoLabel);
+
         JLabel deltaXLabel = new JLabel("∆x:");
         panel.add(deltaXLabel);
 
@@ -418,8 +452,6 @@ public class GraphPanel extends JPanel {
             setValues();
         });
         panel.add(deltaXText);
-
-        panel.add(new JSeparator(SwingConstants.VERTICAL));
 
         JLabel domainLabelPre = new JLabel("Domain: [0,");
         panel.add(domainLabelPre);
@@ -434,7 +466,6 @@ public class GraphPanel extends JPanel {
         JLabel domainLabelPost = new JLabel("] (Integer in degrees)");
         panel.add(domainLabelPost);
 
-        panel.add(new JSeparator(SwingConstants.VERTICAL));
         panel.revalidate();
     }
 
