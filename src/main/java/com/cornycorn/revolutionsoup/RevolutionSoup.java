@@ -146,6 +146,7 @@ public class RevolutionSoup {
         double slope = (function.f(interval) - function.f(0)) / interval;
         int nextInterval = interval;
         double point;
+        double b = 0;
 
         for (int x = 0; x < dataPoints; x++) {
             if (x == nextInterval - 1) {
@@ -154,8 +155,9 @@ public class RevolutionSoup {
                 point = function.f(x);
                 nextInterval += interval;
                 slope = (function.f(nextInterval) - function.f(x)) / interval;
+                b = function.f(x) - (slope * x);
             } else {
-                point = slope * x;
+                point = slope * x + b;
             }
 
             datas.add(point);
