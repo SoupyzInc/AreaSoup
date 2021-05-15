@@ -154,7 +154,7 @@ public class RevolutionSoup {
             } else if (x == nextInterval) {
                 point = function.f(x);
                 nextInterval += interval;
-                slope = (function.f(nextInterval) - function.f(x)) / interval;
+                slope = (function.f(nextInterval) - function.f(nextInterval - interval)) / interval;
                 b = function.f(x) - (slope * x);
             } else {
                 point = slope * x + b;
