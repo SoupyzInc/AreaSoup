@@ -1,11 +1,11 @@
 package com.cornycorn.revolutionsoup;
 
+import com.cornycorn.revolutionsoup.functions.*;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-
-import com.cornycorn.revolutionsoup.functions.*;
 
 public class GraphPanel extends JPanel {
     // Graphing constants
@@ -254,7 +254,7 @@ public class GraphPanel extends JPanel {
         // Set values
         List<Double> newDatas = new ArrayList<>();
         for (int i = 0; i < maxDataPoints; i++) {
-            newDatas.add(function.f(i * (Math.PI / 180)));
+            newDatas.add(function.f(i));
         }
 
         List<Double> newApproximationData;
@@ -445,7 +445,7 @@ public class GraphPanel extends JPanel {
         // Set values
         List<Double> newDatas = new ArrayList<>();
         for (int i = 0; i < maxDataPoints; i++) {
-            newDatas.add(function.f(i * (Math.PI / 180)));
+            newDatas.add(function.f(i));
         }
 
         List<Double> newApproximationData;

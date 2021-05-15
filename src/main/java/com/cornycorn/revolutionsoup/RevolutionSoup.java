@@ -1,6 +1,9 @@
 package com.cornycorn.revolutionsoup;
 
-import com.cornycorn.revolutionsoup.functions.*;
+import com.cornycorn.revolutionsoup.functions.Function;
+import com.cornycorn.revolutionsoup.functions.SinX;
+import com.cornycorn.revolutionsoup.functions.Squared;
+import com.cornycorn.revolutionsoup.functions.XAxis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +95,7 @@ public class RevolutionSoup {
             if (i == nextInterval - 1) {
                 point = 0;
             } else if (i == nextInterval) {
-                point = function.f(i * (Math.PI / 180));
+                point = function.f(i);
                 nextInterval += interval;
             }
 
@@ -113,12 +116,12 @@ public class RevolutionSoup {
     public static List<Double> rightRiemannSum(int interval, int dataPoints, Function function) {
         List<Double> datas = new ArrayList<>();
         int nextInterval = interval;
-        double point = function.f(dataPoints * (Math.PI / 180));
+        double point = function.f(dataPoints);
         for (int i = dataPoints; i > -1; i--) {
             if ((dataPoints - i) == nextInterval - 1) {
                 point = 0;
             } else if ((dataPoints - i) == nextInterval) {
-                point = function.f(i * (Math.PI / 180));
+                point = function.f(i);
                 nextInterval += interval;
             }
 
@@ -138,20 +141,21 @@ public class RevolutionSoup {
      */
     public static List<Double> trapezoidal(int interval, int dataPoints, Function function) {
         // TODO: Finish this.
-        double slope = (function.f(interval) - function.f(0)) / interval;
         List<Double> datas = new ArrayList<>();
+
+        double slope = (function.f(interval) - function.f(0)) / interval;
         int nextInterval = interval;
-        double point = function.f(0);
+        double point;
+
         for (int x = 0; x < dataPoints; x++) {
             if (x == nextInterval - 1) {
                 point = 0;
             } else if (x == nextInterval) {
-                point = function.f(x * (Math.PI / 180));
+                point = function.f(x);
                 nextInterval += interval;
-                slope = (function.f(nextInterval) - function.f(nextInterval - interval)) / interval;
+                slope = (function.f(nextInterval) - function.f(x)) / interval;
             } else {
-                double interValue = slope * x;
-                point = interValue;
+                point = slope * x;
             }
 
             datas.add(point);
