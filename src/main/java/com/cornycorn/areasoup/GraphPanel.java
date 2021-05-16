@@ -22,7 +22,7 @@ public class GraphPanel extends JPanel {
     private static final int LABEL_PADDING = 25;
 
     private static final Color LINE_COLOR_MAIN = new Color(44, 102, 230, 180);
-    private static final Color LINE_COLOR_SECONDARY = new Color(215, 128, 84, 180);
+    private static final Color LINE_COLOR_SECONDARY = new Color(255, 82, 14, 180);
     private static final Color GRID_COLOR = new Color(200, 200, 200, 200);
 
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
@@ -162,6 +162,7 @@ public class GraphPanel extends JPanel {
 
             // Graph approximation
             g2.setColor(LINE_COLOR_SECONDARY);
+            g2.setStroke(GRAPH_STROKE);
             for (int i = 0; i < approximationPoints.size() - 1; i++) {
                 int x1 = approximationPoints.get(i).x;
                 int y1 = approximationPoints.get(i).y;
@@ -173,7 +174,6 @@ public class GraphPanel extends JPanel {
 
             // Graph data
             g2.setColor(LINE_COLOR_MAIN);
-            g2.setStroke(GRAPH_STROKE);
             for (int i = 0; i < graphPoints.size() - 1; i++) {
                 int x1 = graphPoints.get(i).x;
                 int y1 = graphPoints.get(i).y;
