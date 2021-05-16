@@ -465,7 +465,23 @@ public class GraphPanel extends JPanel {
         JLabel domainLabelPost = new JLabel("] (Integer in degrees)");
         panel.add(domainLabelPost);
 
-        panel.revalidate();
+        JButton infinityButton = new JButton("Take lim ∆x → 0");
+        infinityButton.addActionListener(ev -> {
+            Timer timer = new Timer(50, e -> {
+                if(interval > 3) {
+                    interval--;
+                    deltaXText.setText(Integer.toString(interval));
+                    setValues();
+                } else {
+                    ((Timer)e.getSource()).stop();
+                }
+            });
+            timer.setRepeats(true);
+            timer.setDelay(50);
+            timer.start();
+
+        });
+        panel.add(infinityButton);
     }
 
     /**
