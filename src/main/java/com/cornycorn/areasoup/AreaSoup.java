@@ -1,13 +1,11 @@
 package com.cornycorn.areasoup;
 
 import com.cornycorn.areasoup.functions.Function;
-import com.cornycorn.areasoup.functions.SinX;
 import com.cornycorn.areasoup.functions.Squared;
-import com.cornycorn.areasoup.functions.XAxis;
 
 import java.util.ArrayList;
 import java.util.List;
-// TODO: Refactor to AreaSoup.
+
 public class AreaSoup {
     private static int N = 10000000;
 
@@ -164,20 +162,5 @@ public class AreaSoup {
         }
 
         return datas;
-    }
-
-    /**
-     * Main method for debugging.
-     */
-    public static void main(String[] args) {
-        System.out.println(integrate(0, 2 * Math.PI, new SinX()));
-        // OUT: 8.820740479912989E-14
-
-        setN(10);
-        System.out.println(integrate(0, 2 * Math.PI, new SinX()));
-        // OUT: 0.08469971956267101
-
-        System.out.println(revolution(0, 2 * Math.PI, 0, new SinX(), new XAxis()));
-        // OUT: 9.869604401090964
     }
 }
