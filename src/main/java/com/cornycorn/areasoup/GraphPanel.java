@@ -1,6 +1,6 @@
-package com.cornycorn.revolutionsoup;
+package com.cornycorn.areasoup;
 
-import com.cornycorn.revolutionsoup.functions.*;
+import com.cornycorn.areasoup.functions.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,6 +90,10 @@ public class GraphPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (mode == Mode.GRAPH) {
+            // TODO: Fix engine to allow graphing multiple points on the same axis.
+            //      This would require inputting a HashMap for both x and y-values
+            //      and then having the engine fill in for the missing x, y pairs.
+
             // Clear panels
             calcPanel.removeAll();
             calcPanel.revalidate();
@@ -193,7 +197,6 @@ public class GraphPanel extends JPanel {
             answerPanel.removeAll();
             answerPanel.revalidate();
 
-
             // Add calculate features
             JLabel aLabel = new JLabel("a:");
             calcPanel.add(aLabel);
@@ -215,7 +218,7 @@ public class GraphPanel extends JPanel {
             });
             calcPanel.add(bText);
 
-            double answer = RevolutionSoup.integrate(a, b, function);
+            double answer = AreaSoup.integrate(a, b, function);
 
             integralLabel = new JLabel("∫ " + functionName + " dx = " + answer);
             calcPanel.add(integralLabel);
@@ -262,9 +265,9 @@ public class GraphPanel extends JPanel {
 
         List<Double> newApproximationData;
         switch (method) {
-            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(interval, maxDataPoints, function);
-            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(interval, maxDataPoints, function);
-            case TRAPEZOID -> newApproximationData = RevolutionSoup.trapezoidal(interval, maxDataPoints, function);
+            case LEFT -> newApproximationData = AreaSoup.leftRiemannSum(interval, maxDataPoints, function);
+            case RIGHT -> newApproximationData = AreaSoup.rightRiemannSum(interval, maxDataPoints, function);
+            case TRAPEZOID -> newApproximationData = AreaSoup.trapezoidal(interval, maxDataPoints, function);
             default -> newApproximationData = newDatas;
         }
 
@@ -417,7 +420,7 @@ public class GraphPanel extends JPanel {
      * @see #integralLabel
      */
     private static void setAnswer() {
-        double answer = RevolutionSoup.integrate(a, b, function);
+        double answer = AreaSoup.integrate(a, b, function);
         integralLabel.setText("∫ " + functionName + " dx = " + answer);
     }
 
@@ -481,9 +484,9 @@ public class GraphPanel extends JPanel {
 
         List<Double> newApproximationData;
         switch (method) {
-            case LEFT -> newApproximationData = RevolutionSoup.leftRiemannSum(interval, maxDataPoints, function);
-            case RIGHT -> newApproximationData = RevolutionSoup.rightRiemannSum(interval, maxDataPoints, function);
-            case TRAPEZOID -> newApproximationData = RevolutionSoup.trapezoidal(interval, maxDataPoints, function);
+            case LEFT -> newApproximationData = AreaSoup.leftRiemannSum(interval, maxDataPoints, function);
+            case RIGHT -> newApproximationData = AreaSoup.rightRiemannSum(interval, maxDataPoints, function);
+            case TRAPEZOID -> newApproximationData = AreaSoup.trapezoidal(interval, maxDataPoints, function);
             default -> newApproximationData = newDatas;
         }
 

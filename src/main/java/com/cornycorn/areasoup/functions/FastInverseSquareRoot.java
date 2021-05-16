@@ -1,4 +1,4 @@
-package com.cornycorn.revolutionsoup.functions;
+package com.cornycorn.areasoup.functions;
 
 /**
  * An implementation of the <code>Function</code> interface. Uses the famous fast inverse square root algorithm

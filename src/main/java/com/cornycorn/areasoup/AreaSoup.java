@@ -1,14 +1,14 @@
-package com.cornycorn.revolutionsoup;
+package com.cornycorn.areasoup;
 
-import com.cornycorn.revolutionsoup.functions.Function;
-import com.cornycorn.revolutionsoup.functions.SinX;
-import com.cornycorn.revolutionsoup.functions.Squared;
-import com.cornycorn.revolutionsoup.functions.XAxis;
+import com.cornycorn.areasoup.functions.Function;
+import com.cornycorn.areasoup.functions.SinX;
+import com.cornycorn.areasoup.functions.Squared;
+import com.cornycorn.areasoup.functions.XAxis;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class RevolutionSoup {
+// TODO: Refactor to AreaSoup.
+public class AreaSoup {
     private static int N = 10000000;
 
     /**
@@ -17,7 +17,7 @@ public class RevolutionSoup {
      * @param N The accuracy value.
      */
     public static void setN(int N) {
-        RevolutionSoup.N = N;
+        AreaSoup.N = N;
     }
 
     /**
@@ -51,7 +51,7 @@ public class RevolutionSoup {
 
     /**
      * Calculates the volume of revolution for the top function and bottom function
-     * of this instance of RevolutionSoup from a to b about the x-axis.
+     * of this instance of AreaSoup from a to b about the x-axis.
      *
      * @param a    The lower limit of integration.
      * @param b    The upper limit of integration.
@@ -140,7 +140,7 @@ public class RevolutionSoup {
      * @return The points to graph the trapezoidal approximation.
      */
     public static List<Double> trapezoidal(int interval, int dataPoints, Function function) {
-        // TODO: Finish this.
+        // TODO: Fix this.
         List<Double> datas = new ArrayList<>();
 
         double slope = (function.f(interval) - function.f(0)) / interval;

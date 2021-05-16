@@ -1,4 +1,4 @@
-# RevolutionSoup
+# AreaSoup
 A Java Swing app to visualize different integral approximation methods and perform basic calculus operations.
 
 ### Adding new functions
@@ -59,24 +59,24 @@ m1.add(m1X);
 
 ### Attribution
 This project was made by [Matthew Okashita][soupyzinc] and [Joseph Benigno][jojongx] for Mr. Adam's 2021 Calculus Closet
-Project. `RevolutionSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information. 
+Project. `AreaSoup` is licensed under the MIT License. See [`LICENSE`][license] for more information. 
 
 The graphing engine in [`GraphPanel.java`][graph] was based off of [roooodcastro/GraphPanel.java][roooodcastro] on Gist.
 
 FRQ problems used as examples are from past AP Calculus AB and BC exams. AB problems can be found [here][ab] and the BC 
 problems [here][bc] on CollegeBoard's website.
 
-[function]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/Function.java
-[functions]: https://github.com/SoupyzInc/RevolutionSoup/tree/main/src/main/java/com/cornycorn/revolutionsoup/functions
-[problem]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/problems/Problem.java
-[problems]: https://github.com/SoupyzInc/RevolutionSoup/tree/main/src/main/java/com/cornycorn/revolutionsoup/problems
-[app]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/App.java
+[function]: https://github.com/SoupyzInc/AreaSoup/blob/main/src/main/java/Function.java
+[functions]: https://github.com/SoupyzInc/AreaSoup/tree/main/src/main/java/com/cornycorn/AreaSoup/functions
+[problem]: https://github.com/SoupyzInc/AreaSoup/blob/main/src/main/java/com/cornycorn/AreaSoup/problems/Problem.java
+[problems]: https://github.com/SoupyzInc/AreaSoup/tree/main/src/main/java/com/cornycorn/AreaSoup/problems
+[app]: https://github.com/SoupyzInc/AreaSoup/blob/main/src/main/java/com/cornycorn/AreaSoup/App.java
 
 [soupyzinc]: https://github.com/SoupyzInc
 [jojongx]: https://github.com/jojongx
-[license]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/LICENSE
+[license]: https://github.com/SoupyzInc/AreaSoup/blob/main/LICENSE
 
-[graph]: https://github.com/SoupyzInc/RevolutionSoup/blob/main/src/main/java/com/cornycorn/revolutionsoup/GraphPanel.java
+[graph]: https://github.com/SoupyzInc/AreaSoup/blob/main/src/main/java/com/cornycorn/AreaSoup/GraphPanel.java
 [roooodcastro]: https://gist.github.com/roooodcastro/6325153
 
 [ab]: https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam/past-exam-questions

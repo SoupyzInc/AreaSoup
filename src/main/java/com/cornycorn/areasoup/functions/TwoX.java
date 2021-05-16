@@ -1,4 +1,4 @@
-package com.cornycorn.revolutionsoup.functions;
+package com.cornycorn.areasoup.functions;
 
 public class TwoX implements Function {
     @Override

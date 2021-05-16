@@ -1,6 +1,6 @@
-package com.cornycorn.revolutionsoup.functions;
+package com.cornycorn.areasoup.functions;
 
-/**
+/*
  * The Function interface for all other functions to be based off of.
  */
 public interface Function {

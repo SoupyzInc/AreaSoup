@@ -1,8 +1,8 @@
-package com.cornycorn.revolutionsoup.functions;
+package com.cornycorn.areasoup.functions;
 
-/**
- * An abstract implementation of the <code>Function</code> interface. Used by <code>RevolutionSoup.revolution</code>
- * to calculate volume of revolution.
+/*
+  An abstract implementation of the <code>Function</code> interface. Used by <code>RevolutionSoup.revolution</code>
+  to calculate volume of revolution.
  */
 public abstract class Squared implements Function {
     /**

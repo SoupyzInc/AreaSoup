@@ -1,4 +1,4 @@
-package com.cornycorn.revolutionsoup.functions;
+package com.cornycorn.areasoup.functions;
 
 public class CosX implements Function {
     public double f( double x ) {

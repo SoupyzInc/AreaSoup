@@ -1,4 +1,4 @@
-package com.cornycorn.revolutionsoup.functions;
+package com.cornycorn.areasoup.functions;
 
 public class X implements Function {
     @Override
