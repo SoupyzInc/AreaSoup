@@ -163,4 +163,8 @@ public class AreaSoup {
 
         return datas;
     }
+
+    // TODO: Add leftRiemannSumArea, rightRiemannSumArea, and trapezoidalArea methods.
+    //      They should all return a double and have a formal parameter list of
+    //      (int interval, int dataPoints, Function function)
 }
