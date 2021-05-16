@@ -90,10 +90,6 @@ public class GraphPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (mode == Mode.GRAPH) {
-            // TODO: Fix engine to allow graphing multiple points on the same axis.
-            //      This would require inputting a HashMap for both x and y-values
-            //      and then having the engine fill in for the missing x, y pairs.
-
             // Clear panels
             calcPanel.removeAll();
             calcPanel.revalidate();
