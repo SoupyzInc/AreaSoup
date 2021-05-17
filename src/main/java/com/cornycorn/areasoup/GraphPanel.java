@@ -435,6 +435,9 @@ public class GraphPanel extends JPanel {
         integralLabel.setText(INTEGRAL + " " + functionName + " dx = " + answer);
     }
 
+    /**
+     * Updates the info label to correctly display which function and approximation method is being used.
+     */
     private static void updateInfoLabel() {
         if (method != Method.NONE) {
             infoLabel.setText("Approximating " + functionName + " using " + methodName + "   | ");
