@@ -31,7 +31,7 @@ public class GraphPanel extends JPanel {
     private static final int Y_DIVISIONS = 10;
 
     // Frame
-    private static JFrame frame = new JFrame("RevolutionSoup");
+    private static JFrame frame = new JFrame("AreaSoup");
     private static JMenuBar mb = new JMenuBar();
 
     // Graph objects
