@@ -1,9 +1,6 @@
 package com.cornycorn.areasoup;
 
-import com.cornycorn.areasoup.functions.Function;
-import com.cornycorn.areasoup.functions.Squared;
-import com.cornycorn.areasoup.functions.X;
-import com.cornycorn.areasoup.functions.XSquared;
+import com.cornycorn.areasoup.functions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,8 +138,10 @@ public class AreaSoup {
         for (double x = a; x < b; x += ((b - a) / n)) {
             sum += function.f(x);
         }
-        return ((b - a)/n) * sum;
-}
+
+        return ((b - a) / n) * sum;
+    }
+
     /**
      * Returns the approximate area under the curve using the right Riemann sum rule with n rectangles.
      *
@@ -154,9 +153,10 @@ public class AreaSoup {
      */
     public static double rightRiemannSumArea( double a, double b, Function function, int n ) {
         double sum = 0;
-        for (double x = (a + ((b-a)/n)); x <= b+0.00001; x += ((b - a) / n)) {
+        for (double x = (a + ((b - a) / n)); x <= b + 0.00001; x += ((b - a) / n)) {
             sum += function.f(x);
         }
+
         return ((b - a)/n) * sum;
     }
 
@@ -171,14 +171,16 @@ public class AreaSoup {
      */
     public static double trapezoidalArea( double a, double b, Function function, int n ) {
         double sum = 0;
-        for (double x = a; x <= b+0.00001; x += ((b - a) / n)) {
+        for (double x = a; x <= b + 0.00001; x += ((b - a) / n)) {
             if( x == a || x >= b ) {
                 sum += function.f(x);
             }
-            else
-                sum += 2*(function.f(x));
+            else {
+                sum += 2 * (function.f(x));
+            }
         }
-        return ((b - a)/(2*n)) * sum;
+
+        return ((b - a)/(2 * n)) * sum;
     }
 
     public static void main( String[] args ) {
