@@ -2,6 +2,7 @@ package com.cornycorn.areasoup;
 
 import com.cornycorn.areasoup.functions.Function;
 import com.cornycorn.areasoup.functions.Squared;
+import com.cornycorn.areasoup.functions.X;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +165,35 @@ public class AreaSoup {
         return datas;
     }
 
-    // TODO: Add leftRiemannSumArea, rightRiemannSumArea, and trapezoidalArea methods.
-    //      They should all return a double and have a formal parameter list of
-    //      (int interval, int dataPoints, Function function)
+    public static double leftRiemannSumArea( double a, double b, Function function, int n ) {
+        double sum = 0;
+        for (double x = a; x < b; x += ((b - a) / n)) {
+            sum += function.f(x);
+        }
+        return sum = ((b - a)/n) * sum;
+}
+
+    public static double rightRiemannSumArea( double a, double b, Function function, int n ) {
+        double sum = 0;
+        for (double x = (a + ((b-a)/n)); x <= b; x += ((b - a) / n)) {
+            sum += function.f(x);
+        }
+        return sum = ((b - a)/n) * sum;
+    }
+
+    public static double trapezoidalArea( double a, double b, Function function, int n ) {
+        double sum = 0;
+        for (double x = a; x <= b; x += ((b - a) / n)) {
+            if( x == a || x == b ) {
+                sum += function.f(x);
+            }
+            else
+                sum += 2*(function.f(x));
+        }
+        return sum = ((b - a)/(2*n)) * sum;
+    }
+
+    public static void main( String[] args ) {
+        System.out.println(AreaSoup.leftRiemannSumArea(1, 4, new X(), 3));
+    }
 }
