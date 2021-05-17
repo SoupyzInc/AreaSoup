@@ -21,9 +21,9 @@ public class GraphPanel extends JPanel {
     private static final String DELTA = "\u2206";
     private static final String APPROACHES = "\u2192";
     private static final String INTEGRAL = "\u222B";
-    private static final String RADICAL = "\u222B";
+    private static final String RADICAL = "\u221A";
     private static final String SQUARED = "\u00B2";
-    private static final String CUBED = "\u00B2";
+    private static final String CUBED = "\u00B3";
 
     // Graphing constants
     private static final int PADDING = 25;
