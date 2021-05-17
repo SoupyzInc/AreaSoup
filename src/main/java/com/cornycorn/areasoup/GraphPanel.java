@@ -269,10 +269,17 @@ public class GraphPanel extends JPanel {
 
         List<Double> newApproximationData;
         switch (method) {
-            case LEFT -> newApproximationData = AreaSoup.leftRiemannSum(interval, maxDataPoints, function);
-            case RIGHT -> newApproximationData = AreaSoup.rightRiemannSum(interval, maxDataPoints, function);
-            case TRAPEZOID -> newApproximationData = AreaSoup.trapezoidal(interval, maxDataPoints, function);
-            default -> newApproximationData = newDatas;
+            case LEFT:
+                newApproximationData = AreaSoup.leftRiemannSum(interval, maxDataPoints, function);
+                break;
+            case RIGHT:
+                newApproximationData = AreaSoup.rightRiemannSum(interval, maxDataPoints, function);
+                break;
+            case TRAPEZOID:
+                newApproximationData = AreaSoup.trapezoidal(interval, maxDataPoints, function);
+                break;
+            default:
+                newApproximationData = newDatas;
         }
 
         setData(newDatas, newApproximationData);
@@ -504,10 +511,17 @@ public class GraphPanel extends JPanel {
 
         List<Double> newApproximationData;
         switch (method) {
-            case LEFT -> newApproximationData = AreaSoup.leftRiemannSum(interval, maxDataPoints, function);
-            case RIGHT -> newApproximationData = AreaSoup.rightRiemannSum(interval, maxDataPoints, function);
-            case TRAPEZOID -> newApproximationData = AreaSoup.trapezoidal(interval, maxDataPoints, function);
-            default -> newApproximationData = newDatas;
+            case LEFT:
+                newApproximationData = AreaSoup.leftRiemannSum(interval, maxDataPoints, function);
+                break;
+            case RIGHT:
+                newApproximationData = AreaSoup.rightRiemannSum(interval, maxDataPoints, function);
+                break;
+            case TRAPEZOID:
+                newApproximationData = AreaSoup.trapezoidal(interval, maxDataPoints, function);
+                break;
+            default:
+                newApproximationData = newDatas;
         }
 
         mainPanel = new GraphPanel(newDatas, newApproximationData);
