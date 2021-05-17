@@ -3,13 +3,15 @@ A Java Swing app to visualize different integral approximation methods and perfo
 
 With AreaSoup, you can change the function you are graphing, and the approximation method you are using. You
 can change the interval width of the rectangle/trapezoid by changing the ∆x value. Change how much of the graph you are
-seeing by changing the domain value. Note that all values should be positive integers in degrees.
+seeing by changing the domain value. Note that all values should be positive integers in degrees. (You must hit enter
+after changing the ∆x or domain value).
 
 To demonstrate how making ∆x approach 0 will increase accuracy of the approximation, press the "Take lim ∆x → 0" 
 button and watch the rectangles/trapezoids move across the screen!
 
 Entering an n value will tell you if the current approximation technique will either provide an over or underestimate
-of the current function for n rectangles in the specified domain.
+of the current function for n rectangles in the specified domain. (You must hit enter in the text box after changing
+functions, approximation method, or n value to recalculate the area)
 
 ### Adding new functions
 To add new functions, create a new class that `implements` the `Function` interface. `Function` is defined under 
@@ -65,6 +67,3 @@ The graphing engine in [`GraphPanel.java`][graph] was based off of [roooodcastro
 
 [graph]: https://github.com/SoupyzInc/AreaSoup/blob/main/src/main/java/com/cornycorn/AreaSoup/GraphPanel.java
 [roooodcastro]: https://gist.github.com/roooodcastro/6325153
-
-[ab]: https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam/past-exam-questions
-[bc]: https://apcentral.collegeboard.org/courses/ap-calculus-bc/exam/past-exam-questions 
