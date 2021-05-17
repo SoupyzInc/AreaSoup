@@ -47,7 +47,6 @@ public class GraphPanel extends JPanel {
     private static JPanel calcPanel = new JPanel();
     private static JPanel approximationPanel = new JPanel();
     private static JLabel infoLabel = new JLabel();
-    private static JLabel integralLabel = new JLabel();
 
     // Static variables
     private static Function function = new SinX();
@@ -358,15 +357,6 @@ public class GraphPanel extends JPanel {
             setValues();
         });
         am.add(noneItem);
-    }
-
-    /**
-     * Sets the answer for integral calculations.
-     * @see #integralLabel
-     */
-    private static void setAnswer() {
-        double answer = AreaSoup.integrate(a, b, function);
-        integralLabel.setText(INTEGRAL + " " + functionName + " dx = " + answer);
     }
 
     /**
