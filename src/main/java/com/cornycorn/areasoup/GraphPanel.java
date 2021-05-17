@@ -17,6 +17,14 @@ public class GraphPanel extends JPanel {
         GRAPH, CALCULATE
     }
 
+    // Unicode constants
+    private static final String DELTA = "\u2206";
+    private static final String APPROACHES = "\u2192";
+    private static final String INTEGRAL = "\u222B";
+    private static final String RADICAL = "\u222B";
+    private static final String SQUARED = "\u00B2";
+    private static final String CUBED = "\u00B2";
+
     // Graphing constants
     private static final int PADDING = 25;
     private static final int LABEL_PADDING = 25;
@@ -216,7 +224,7 @@ public class GraphPanel extends JPanel {
 
             double answer = AreaSoup.integrate(a, b, function);
 
-            integralLabel = new JLabel("∫ " + functionName + " dx = " + answer);
+            integralLabel = new JLabel(INTEGRAL + " " + functionName + " dx = " + answer);
             calcPanel.add(integralLabel);
 
             frame.getContentPane().add(calcPanel);
@@ -312,37 +320,37 @@ public class GraphPanel extends JPanel {
         });
         fm.add(twoXItem);
 
-        JMenuItem xSquaredItem = new JMenuItem("x²");
+        JMenuItem xSquaredItem = new JMenuItem("x" + SQUARED);
         xSquaredItem.addActionListener(ev -> {
             function = new XSquared();
-            functionName = "x²";
+            functionName = "x" + SQUARED;
             updateInfoLabel();
             setValues();
         });
         fm.add(xSquaredItem);
 
-        JMenuItem xCubedItem = new JMenuItem("x³");
+        JMenuItem xCubedItem = new JMenuItem("x" + CUBED);
         xCubedItem.addActionListener(ev -> {
             function = new XCubed();
-            functionName = "x³";
+            functionName = "x" + CUBED;
             updateInfoLabel();
             setValues();
         });
         fm.add(xCubedItem);
 
-        JMenuItem SquareRootXItem = new JMenuItem("√x");
+        JMenuItem SquareRootXItem = new JMenuItem(RADICAL + "x");
         SquareRootXItem.addActionListener(ev -> {
             function = new SquareRootX();
-            functionName = "√x";
+            functionName = RADICAL + "x";
             updateInfoLabel();
             setValues();
         });
         fm.add(SquareRootXItem);
 
-        JMenuItem FastInverseSquareRootItem = new JMenuItem("1/√x but fast");
+        JMenuItem FastInverseSquareRootItem = new JMenuItem("1/" + RADICAL + "x but fast");
         FastInverseSquareRootItem.addActionListener(ev -> {
             function = new FastInverseSquareRoot();
-            functionName = "1/√x";
+            functionName = "1/" + RADICAL + "x";
             updateInfoLabel();
             setValues();
         });
@@ -417,7 +425,7 @@ public class GraphPanel extends JPanel {
      */
     private static void setAnswer() {
         double answer = AreaSoup.integrate(a, b, function);
-        integralLabel.setText("∫ " + functionName + " dx = " + answer);
+        integralLabel.setText(INTEGRAL + " " + functionName + " dx = " + answer);
     }
 
     private static void updateInfoLabel() {
@@ -442,7 +450,7 @@ public class GraphPanel extends JPanel {
         }
         panel.add(infoLabel);
 
-        JLabel deltaXLabel = new JLabel("∆x:");
+        JLabel deltaXLabel = new JLabel(DELTA + "x:");
         panel.add(deltaXLabel);
 
         JTextField deltaXText = new JTextField(Integer.toString(interval), 3);
@@ -465,7 +473,7 @@ public class GraphPanel extends JPanel {
         JLabel domainLabelPost = new JLabel("] (Integer in degrees)");
         panel.add(domainLabelPost);
 
-        JButton infinityButton = new JButton("Take lim ∆x → 0");
+        JButton infinityButton = new JButton("Take lim " + DELTA + "x " + APPROACHES +" 0");
         infinityButton.addActionListener(ev -> {
             Timer timer = new Timer(50, e -> {
                 if(interval > 3) {
