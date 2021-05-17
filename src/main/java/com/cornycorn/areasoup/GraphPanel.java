@@ -53,6 +53,7 @@ public class GraphPanel extends JPanel {
 
     private static int interval = 20;
     private static int maxDataPoints = 361;
+    private static int n = 10;
 
     private List<Double> datas;
     private List<Double> approximationData;
@@ -243,6 +244,7 @@ public class GraphPanel extends JPanel {
             function = new TwoX();
             functionName = "2x";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(twoXItem);
@@ -252,6 +254,7 @@ public class GraphPanel extends JPanel {
             function = new XSquared();
             functionName = "x" + SQUARED;
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(xSquaredItem);
@@ -261,6 +264,7 @@ public class GraphPanel extends JPanel {
             function = new XCubed();
             functionName = "x" + CUBED;
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(xCubedItem);
@@ -270,6 +274,7 @@ public class GraphPanel extends JPanel {
             function = new SquareRootX();
             functionName = RADICAL + "x";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(SquareRootXItem);
@@ -279,6 +284,7 @@ public class GraphPanel extends JPanel {
             function = new FastInverseSquareRoot();
             functionName = "1/" + RADICAL + "x";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(FastInverseSquareRootItem);
@@ -288,6 +294,7 @@ public class GraphPanel extends JPanel {
             function = new SinX();
             functionName = "sin(x)";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(sinItem);
@@ -297,6 +304,7 @@ public class GraphPanel extends JPanel {
             function = new CosX();
             functionName = "cos(x)";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         fm.add(cosItem);
@@ -315,6 +323,7 @@ public class GraphPanel extends JPanel {
             method = Method.LEFT;
             methodName = "left Riemann sums";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         am.add(leftItem);
@@ -324,6 +333,7 @@ public class GraphPanel extends JPanel {
             method = Method.RIGHT;
             methodName = "right Riemann sums";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         am.add(rightItem);
@@ -333,6 +343,7 @@ public class GraphPanel extends JPanel {
             method = Method.TRAPEZOID;
             methodName = "trapezoids";
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         am.add(trapItem);
@@ -341,6 +352,7 @@ public class GraphPanel extends JPanel {
         noneItem.addActionListener(ev -> {
             method = Method.NONE;
             updateInfoLabel();
+            updateEstimateLabel();
             setValues();
         });
         am.add(noneItem);
@@ -360,6 +372,45 @@ public class GraphPanel extends JPanel {
     }
 
     /**
+     * Updates the estimate label to correctly display whether the current approximation technique for n
+     * rectangles is an over or underestimate for this function.
+     */
+    private static void updateEstimateLabel() {
+        String estimate = "";
+
+        switch (method) {
+            case LEFT:
+                if (AreaSoup.leftRiemannSumArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
+                    estimate = "overestimate";
+                } else if (AreaSoup.leftRiemannSumArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)) {
+                    estimate = "underestimate";
+                } else {
+                    estimate = "equal";
+                }
+                break;
+            case RIGHT:
+                if (AreaSoup.rightRiemannSumArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
+                    estimate = "overestimate";
+                } else if (AreaSoup.rightRiemannSumArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)) {
+                    estimate = "underestimate";
+                } else {
+                    estimate = "equal";
+                }
+                break;
+            case TRAPEZOID:
+                if (AreaSoup.trapezoidalArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
+                    estimate = "overestimate";
+                } else if (AreaSoup.trapezoidalArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)){
+                    estimate = "underestimate";
+                } else {
+                    estimate = "equal";
+                }
+        }
+
+        estimateLabelPost.setText(estimate + "   | ");
+    }
+
+    /**
      * Creates the panel to change the interval width and domain when graphing.
      * @see #panel
      */
@@ -373,39 +424,8 @@ public class GraphPanel extends JPanel {
 
             JTextField nText = new JTextField(3);
             nText.addActionListener(ev -> {
-                int n = Integer.parseInt(nText.getText());
-                String estimate = "";
-
-                switch (method) {
-                    case LEFT:
-                        if (AreaSoup.leftRiemannSumArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
-                            estimate = "overestimate";
-                        } else if (AreaSoup.leftRiemannSumArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)) {
-                            estimate = "underestimate";
-                        } else {
-                            estimate = "equal";
-                        }
-                        break;
-                    case RIGHT:
-                        if (AreaSoup.rightRiemannSumArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
-                            estimate = "overestimate";
-                        } else if (AreaSoup.rightRiemannSumArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)) {
-                            estimate = "underestimate";
-                        } else {
-                            estimate = "equal";
-                        }
-                        break;
-                    case TRAPEZOID:
-                        if (AreaSoup.trapezoidalArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
-                            estimate = "overestimate";
-                        } else if (AreaSoup.trapezoidalArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)){
-                            estimate = "underestimate";
-                        } else {
-                            estimate = "equal";
-                        }
-                }
-
-                estimateLabelPost.setText(estimate + "   | ");
+                n = Integer.parseInt(nText.getText());
+                updateEstimateLabel();
             });
 
             panel.add(nText);
