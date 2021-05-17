@@ -16,7 +16,6 @@ public class GraphPanel extends JPanel {
     // Unicode constants
     private static final String DELTA = "\u2206";
     private static final String APPROACHES = "\u2192";
-    private static final String INTEGRAL = "\u222B";
     private static final String RADICAL = "\u221A";
     private static final String SQUARED = "\u00B2";
     private static final String CUBED = "\u00B3";
@@ -61,9 +60,6 @@ public class GraphPanel extends JPanel {
 
     private List<Double> datas;
     private List<Double> approximationData;
-
-    private static double a = 0;
-    private static double b = 1;
 
     /**
      * Instantiates a new <code>GraphPanel</code> object with data to be graphed.
