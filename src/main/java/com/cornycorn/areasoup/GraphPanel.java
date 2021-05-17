@@ -13,10 +13,6 @@ public class GraphPanel extends JPanel {
         LEFT, RIGHT, TRAPEZOID, NONE
     }
 
-    private enum Mode {
-        GRAPH, CALCULATE
-    }
-
     // Unicode constants
     private static final String DELTA = "\u2206";
     private static final String APPROACHES = "\u2192";
@@ -60,7 +56,6 @@ public class GraphPanel extends JPanel {
     private static String methodName = "left Riemann sums";
 
     private static Method method = Method.LEFT;
-    private static Mode mode = Mode.GRAPH;
 
     private static int interval = 20;
     private static int maxDataPoints = 361;
@@ -98,136 +93,99 @@ public class GraphPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (mode == Mode.GRAPH) {
-            // Clear panels
-            calcPanel.removeAll();
-            calcPanel.revalidate();
-            approximationPanel.removeAll();
-            approximationPanel.revalidate();
+        // Clear panels
+        calcPanel.removeAll();
+        calcPanel.revalidate();
+        approximationPanel.removeAll();
+        approximationPanel.revalidate();
 
-            // Draw graph
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // Draw graph
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            double xScale = ((double) getWidth() - (2 * PADDING) - LABEL_PADDING) / (datas.size() - 1);
-            double yScale = ((double) getHeight() - 2 * PADDING - LABEL_PADDING) / (getMaxData() - getMinData());
+        double xScale = ((double) getWidth() - (2 * PADDING) - LABEL_PADDING) / (datas.size() - 1);
+        double yScale = ((double) getHeight() - 2 * PADDING - LABEL_PADDING) / (getMaxData() - getMinData());
 
-            // Set graph points
-            List<Point> graphPoints = new ArrayList<>();
-            for (int i = 0; i < datas.size(); i++) {
-                int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
-                int y1 = (int) ((getMaxData() - datas.get(i)) * yScale + PADDING);
-                graphPoints.add(new Point(x1, y1));
+        // Set graph points
+        List<Point> graphPoints = new ArrayList<>();
+        for (int i = 0; i < datas.size(); i++) {
+            int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
+            int y1 = (int) ((getMaxData() - datas.get(i)) * yScale + PADDING);
+            graphPoints.add(new Point(x1, y1));
+        }
+
+        List<Point> approximationPoints = new ArrayList<>();
+        for (int i = 0; i < approximationData.size(); i++) {
+            int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
+            int y1 = (int) ((getMaxData() - approximationData.get(i)) * yScale + PADDING);
+            approximationPoints.add(new Point(x1, y1));
+        }
+
+        // Fill background.
+        g2.setColor(Color.WHITE);
+        g2.fillRect(PADDING + LABEL_PADDING, PADDING, getWidth() - (2 * PADDING) - LABEL_PADDING, getHeight() - 2 * PADDING - LABEL_PADDING);
+        g2.setColor(Color.BLACK);
+
+        // Y axis grid marks and hatch lines.
+        for (int i = 0; i < Y_DIVISIONS + 1; i++) {
+            int x0 = PADDING + LABEL_PADDING;
+            int x1 = POINT_WIDTH + PADDING + LABEL_PADDING;
+            int y0 = getHeight() - ((i * (getHeight() - PADDING * 2 - LABEL_PADDING)) / Y_DIVISIONS + PADDING + LABEL_PADDING);
+            if (datas.size() > 0) {
+                g2.setColor(GRID_COLOR);
+                g2.drawLine(PADDING + LABEL_PADDING + 1 + POINT_WIDTH, y0, getWidth() - PADDING, y0);
+                g2.setColor(Color.BLACK);
+                String yLabel = ((int) ((getMinData() + (getMaxData() - getMinData()) * ((i * 1.0) / Y_DIVISIONS)) * 100)) / 100.0 + "";
+                FontMetrics metrics = g2.getFontMetrics();
+                int labelWidth = metrics.stringWidth(yLabel);
+                g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
             }
+            g2.drawLine(x0, y0, x1, y0);
+        }
 
-            List<Point> approximationPoints = new ArrayList<>();
-            for (int i = 0; i < approximationData.size(); i++) {
-                int x1 = (int) (i * xScale + PADDING + LABEL_PADDING);
-                int y1 = (int) ((getMaxData() - approximationData.get(i)) * yScale + PADDING);
-                approximationPoints.add(new Point(x1, y1));
-            }
-
-            // Fill background.
-            g2.setColor(Color.WHITE);
-            g2.fillRect(PADDING + LABEL_PADDING, PADDING, getWidth() - (2 * PADDING) - LABEL_PADDING, getHeight() - 2 * PADDING - LABEL_PADDING);
-            g2.setColor(Color.BLACK);
-
-            // Y axis grid marks and hatch lines.
-            for (int i = 0; i < Y_DIVISIONS + 1; i++) {
-                int x0 = PADDING + LABEL_PADDING;
-                int x1 = POINT_WIDTH + PADDING + LABEL_PADDING;
-                int y0 = getHeight() - ((i * (getHeight() - PADDING * 2 - LABEL_PADDING)) / Y_DIVISIONS + PADDING + LABEL_PADDING);
-                if (datas.size() > 0) {
+        // X axis grid marks and hatch lines.
+        for (int i = 0; i < datas.size(); i++) {
+            if (datas.size() > 1) {
+                int x0 = i * (getWidth() - PADDING * 2 - LABEL_PADDING) / (datas.size() - 1) + PADDING + LABEL_PADDING;
+                int y0 = getHeight() - PADDING - LABEL_PADDING;
+                int y1 = y0 - POINT_WIDTH;
+                if ((i % ((int) ((datas.size() / 20.0)) + 1)) == 0) {
                     g2.setColor(GRID_COLOR);
-                    g2.drawLine(PADDING + LABEL_PADDING + 1 + POINT_WIDTH, y0, getWidth() - PADDING, y0);
+                    g2.drawLine(x0, getHeight() - PADDING - LABEL_PADDING - 1 - POINT_WIDTH, x0, PADDING);
                     g2.setColor(Color.BLACK);
-                    String yLabel = ((int) ((getMinData() + (getMaxData() - getMinData()) * ((i * 1.0) / Y_DIVISIONS)) * 100)) / 100.0 + "";
+                    String xLabel = i + "";
                     FontMetrics metrics = g2.getFontMetrics();
-                    int labelWidth = metrics.stringWidth(yLabel);
-                    g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+                    int labelWidth = metrics.stringWidth(xLabel);
+                    g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
                 }
-                g2.drawLine(x0, y0, x1, y0);
+                g2.drawLine(x0, y0, x0, y1);
             }
+        }
 
-            // X axis grid marks and hatch lines.
-            for (int i = 0; i < datas.size(); i++) {
-                if (datas.size() > 1) {
-                    int x0 = i * (getWidth() - PADDING * 2 - LABEL_PADDING) / (datas.size() - 1) + PADDING + LABEL_PADDING;
-                    int y0 = getHeight() - PADDING - LABEL_PADDING;
-                    int y1 = y0 - POINT_WIDTH;
-                    if ((i % ((int) ((datas.size() / 20.0)) + 1)) == 0) {
-                        g2.setColor(GRID_COLOR);
-                        g2.drawLine(x0, getHeight() - PADDING - LABEL_PADDING - 1 - POINT_WIDTH, x0, PADDING);
-                        g2.setColor(Color.BLACK);
-                        String xLabel = i + "";
-                        FontMetrics metrics = g2.getFontMetrics();
-                        int labelWidth = metrics.stringWidth(xLabel);
-                        g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
-                    }
-                    g2.drawLine(x0, y0, x0, y1);
-                }
-            }
+        // X and Y axis.
+        g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
+        g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
 
-            // X and Y axis.
-            g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, PADDING + LABEL_PADDING, PADDING);
-            g2.drawLine(PADDING + LABEL_PADDING, getHeight() - PADDING - LABEL_PADDING, getWidth() - PADDING, getHeight() - PADDING - LABEL_PADDING);
+        // Graph approximation
+        g2.setColor(LINE_COLOR_SECONDARY);
+        g2.setStroke(GRAPH_STROKE);
+        for (int i = 0; i < approximationPoints.size() - 1; i++) {
+            int x1 = approximationPoints.get(i).x;
+            int y1 = approximationPoints.get(i).y;
+            int x2 = approximationPoints.get(i + 1).x;
+            int y2 = approximationPoints.get(i + 1).y;
 
-            // Graph approximation
-            g2.setColor(LINE_COLOR_SECONDARY);
-            g2.setStroke(GRAPH_STROKE);
-            for (int i = 0; i < approximationPoints.size() - 1; i++) {
-                int x1 = approximationPoints.get(i).x;
-                int y1 = approximationPoints.get(i).y;
-                int x2 = approximationPoints.get(i + 1).x;
-                int y2 = approximationPoints.get(i + 1).y;
+            g2.drawLine(x1, y1, x2, y2);
+        }
 
-                g2.drawLine(x1, y1, x2, y2);
-            }
-
-            // Graph data
-            g2.setColor(LINE_COLOR_MAIN);
-            for (int i = 0; i < graphPoints.size() - 1; i++) {
-                int x1 = graphPoints.get(i).x;
-                int y1 = graphPoints.get(i).y;
-                int x2 = graphPoints.get(i + 1).x;
-                int y2 = graphPoints.get(i + 1).y;
-                g2.drawLine(x1, y1, x2, y2);
-            }
-        } else {
-            // Clear panels
-            panel.removeAll();
-            panel.revalidate();
-            mainPanel.removeAll();
-            mainPanel.revalidate();
-
-            calcPanel.removeAll();
-            calcPanel.revalidate();
-            approximationPanel.removeAll();
-            approximationPanel.revalidate();
-
-            // Add calculate features
-            JLabel aLabel = new JLabel("a:");
-            calcPanel.add(aLabel);
-
-            JTextField aText = new JTextField(Double.toString(a), 3);
-            aText.addActionListener(ev -> {
-                a = Double.parseDouble(aText.getText());
-                setAnswer();
-            });
-            calcPanel.add(aText);
-
-            JLabel bLabel = new JLabel("b:");
-            calcPanel.add(bLabel);
-
-            JTextField bText = new JTextField(Double.toString(b), 3);
-            bText.addActionListener(ev -> {
-                b = Double.parseDouble(bText.getText());
-                setAnswer();
-            });
-            calcPanel.add(bText);
-
-            frame.getContentPane().add(calcPanel);
-            frame.revalidate();
+        // Graph data
+        g2.setColor(LINE_COLOR_MAIN);
+        for (int i = 0; i < graphPoints.size() - 1; i++) {
+            int x1 = graphPoints.get(i).x;
+            int y1 = graphPoints.get(i).y;
+            int x2 = graphPoints.get(i + 1).x;
+            int y2 = graphPoints.get(i + 1).y;
+            g2.drawLine(x1, y1, x2, y2);
         }
     }
 
@@ -284,30 +242,6 @@ public class GraphPanel extends JPanel {
 
         setData(newDatas, newApproximationData);
         mainPanel.repaint();
-    }
-
-    /**
-     * Adds a Mode <code>JMenuItem</code> to <code>JMenuBar mb</code>.
-     * @see #mb
-     */
-    private static void addModes() {
-        JMenu mm = new JMenu("Mode");
-        mb.add(mm);
-
-        JMenuItem graphItem = new JMenuItem("Graph");
-        graphItem.addActionListener(ev -> {
-            mode = Mode.GRAPH;
-            setValues();
-            addPanel();
-        });
-        mm.add(graphItem);
-
-        JMenuItem calcItem = new JMenuItem("Calculate");
-        calcItem.addActionListener(ev -> {
-            mode = Mode.CALCULATE;
-            mainPanel.repaint();
-        });
-        mm.add(calcItem);
     }
 
     /**
@@ -580,7 +514,6 @@ public class GraphPanel extends JPanel {
         addPanel();
 
         // Menu bar
-        addModes();
         addFunctions();
         addApproximations();
 
