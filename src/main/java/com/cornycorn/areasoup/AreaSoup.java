@@ -3,6 +3,7 @@ package com.cornycorn.areasoup;
 import com.cornycorn.areasoup.functions.Function;
 import com.cornycorn.areasoup.functions.Squared;
 import com.cornycorn.areasoup.functions.X;
+import com.cornycorn.areasoup.functions.XSquared;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,35 +166,61 @@ public class AreaSoup {
         return datas;
     }
 
+    /**
+     * Returns the approximate area under the curve using the left Riemann sum rule with n rectangles.
+     *
+     * @param a The lower limit of integration.
+     * @param b The upper limit of integration.
+     * @param function The function being used to calculate the left Riemann sum.
+     * @param n The number of rectangles being used to estimate the area under the curve.
+     * @return The approximate area under the curve by the left Riemann sum rule.
+     */
     public static double leftRiemannSumArea( double a, double b, Function function, int n ) {
         double sum = 0;
         for (double x = a; x < b; x += ((b - a) / n)) {
             sum += function.f(x);
         }
-        return sum = ((b - a)/n) * sum;
+        return ((b - a)/n) * sum;
 }
-
+    /**
+     * Returns the approximate area under the curve using the right Riemann sum rule with n rectangles.
+     *
+     * @param a The lower limit of integration.
+     * @param b The upper limit of integration.
+     * @param function The function being used to calculate the right Riemann sum.
+     * @param n The number of rectangles being used to estimate the area under the curve.
+     * @return The approximate area under the curve by the right Riemann sum rule.
+     */
     public static double rightRiemannSumArea( double a, double b, Function function, int n ) {
         double sum = 0;
-        for (double x = (a + ((b-a)/n)); x <= b; x += ((b - a) / n)) {
+        for (double x = (a + ((b-a)/n)); x <= b+1; x += ((b - a) / n)) {
             sum += function.f(x);
         }
-        return sum = ((b - a)/n) * sum;
+        return ((b - a)/n) * sum;
     }
 
+    /**
+     * Returns the approximate area under the curve using the trapezoidal sum rule with n trapezoids.
+     *
+     * @param a The lower limit of integration.
+     * @param b The upper limit of integration.
+     * @param function The function being used to calculate the trapezoidal sum.
+     * @param n The number of trapezoids being used to estimate the area under the curve.
+     * @return The approximate area under the curve by the trapezoidal sum rule.
+     */
     public static double trapezoidalArea( double a, double b, Function function, int n ) {
         double sum = 0;
-        for (double x = a; x <= b; x += ((b - a) / n)) {
-            if( x == a || x == b ) {
+        for (double x = a; x <= b+1; x += ((b - a) / n)) {
+            if( x == a || x >= b ) {
                 sum += function.f(x);
             }
             else
                 sum += 2*(function.f(x));
         }
-        return sum = ((b - a)/(2*n)) * sum;
+        return ((b - a)/(2*n)) * sum;
     }
 
     public static void main( String[] args ) {
-        System.out.println(AreaSoup.leftRiemannSumArea(1, 4, new X(), 3));
+        System.out.println(AreaSoup.trapezoidalArea(0, 6, new XSquared(), 2));
     }
 }
