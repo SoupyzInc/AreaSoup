@@ -45,12 +45,13 @@ public class GraphPanel extends JPanel {
     // Graph objects
     private static GraphPanel mainPanel;
     private static JPanel panel = new JPanel();
+    private static JLabel estimateLabelPost = new JLabel();
 
     // Calculate objects
     private static JPanel calcPanel = new JPanel();
-    private static JPanel answerPanel = new JPanel();
+    private static JPanel approximationPanel = new JPanel();
     private static JLabel infoLabel = new JLabel();
-    private static JLabel integralLabel;
+    private static JLabel integralLabel = new JLabel();
 
     // Static variables
     private static Function function = new SinX();
@@ -101,7 +102,10 @@ public class GraphPanel extends JPanel {
             // Clear panels
             calcPanel.removeAll();
             calcPanel.revalidate();
+            approximationPanel.removeAll();
+            approximationPanel.revalidate();
 
+            // Draw graph
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -198,8 +202,8 @@ public class GraphPanel extends JPanel {
 
             calcPanel.removeAll();
             calcPanel.revalidate();
-            answerPanel.removeAll();
-            answerPanel.revalidate();
+            approximationPanel.removeAll();
+            approximationPanel.revalidate();
 
             // Add calculate features
             JLabel aLabel = new JLabel("a:");
@@ -222,12 +226,8 @@ public class GraphPanel extends JPanel {
             });
             calcPanel.add(bText);
 
-            double answer = AreaSoup.integrate(a, b, function);
-
-            integralLabel = new JLabel(INTEGRAL + " " + functionName + " dx = " + answer);
-            calcPanel.add(integralLabel);
-
             frame.getContentPane().add(calcPanel);
+            frame.revalidate();
         }
     }
 
@@ -435,6 +435,9 @@ public class GraphPanel extends JPanel {
         integralLabel.setText(INTEGRAL + " " + functionName + " dx = " + answer);
     }
 
+    /**
+     * Updates the info label to correctly display which function and approximation method is being used.
+     */
     private static void updateInfoLabel() {
         if (method != Method.NONE) {
             infoLabel.setText("Approximating " + functionName + " using " + methodName + "   | ");
@@ -451,11 +454,57 @@ public class GraphPanel extends JPanel {
      */
     public static void addPanel() {
         if (method != Method.NONE) {
-            infoLabel = new JLabel("Approximating " + functionName + " using " + methodName + "   | ");
+            infoLabel = new JLabel("Approximating " + functionName + " using " + methodName + " | ");
+
+            JLabel estimateLabelPre = new JLabel("For n = ");
+            panel.add(estimateLabelPre);
+
+
+            JTextField nText = new JTextField(3);
+            nText.addActionListener(ev -> {
+                int n = Integer.parseInt(nText.getText());
+                String estimate = "";
+
+                switch (method) {
+                    case LEFT:
+                        if (AreaSoup.leftRiemannSumArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
+                            estimate = "overestimate";
+                        } else if (AreaSoup.leftRiemannSumArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)) {
+                            estimate = "underestimate";
+                        } else {
+                            estimate = "equal";
+                        }
+                        break;
+                    case RIGHT:
+                        if (AreaSoup.rightRiemannSumArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
+                            estimate = "overestimate";
+                        } else if (AreaSoup.rightRiemannSumArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)) {
+                            estimate = "underestimate";
+                        } else {
+                            estimate = "equal";
+                        }
+                        break;
+                    case TRAPEZOID:
+                        if (AreaSoup.trapezoidalArea(0, maxDataPoints, function, n) > AreaSoup.integrate(0, maxDataPoints, function)) {
+                            estimate = "overestimate";
+                        } else if (AreaSoup.trapezoidalArea(0, maxDataPoints, function, n) < AreaSoup.integrate(0, maxDataPoints, function)){
+                            estimate = "underestimate";
+                        } else {
+                            estimate = "equal";
+                        }
+                }
+
+                estimateLabelPost.setText(estimate + "   | ");
+            });
+
+            panel.add(nText);
+            panel.add(estimateLabelPost);
         } else {
-            infoLabel = new JLabel("Graphing " + functionName + "   | ");
+            infoLabel = new JLabel("Graphing " + functionName + " | ");
         }
+
         panel.add(infoLabel);
+
 
         JLabel deltaXLabel = new JLabel(DELTA + "x:");
         panel.add(deltaXLabel);
