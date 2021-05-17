@@ -193,7 +193,7 @@ public class AreaSoup {
      */
     public static double rightRiemannSumArea( double a, double b, Function function, int n ) {
         double sum = 0;
-        for (double x = (a + ((b-a)/n)); x <= b+1; x += ((b - a) / n)) {
+        for (double x = (a + ((b-a)/n)); x <= b+0.00001; x += ((b - a) / n)) {
             sum += function.f(x);
         }
         return ((b - a)/n) * sum;
@@ -210,7 +210,7 @@ public class AreaSoup {
      */
     public static double trapezoidalArea( double a, double b, Function function, int n ) {
         double sum = 0;
-        for (double x = a; x <= b+1; x += ((b - a) / n)) {
+        for (double x = a; x <= b+0.00001; x += ((b - a) / n)) {
             if( x == a || x >= b ) {
                 sum += function.f(x);
             }
