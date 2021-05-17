@@ -26,6 +26,7 @@ An example implementation is provided below.
 
 ```java
 public class YourFunction implements Function {
+    @Override
     public double f(double x) {
         return /*The y-value that your function should return for x.*/;
     }
