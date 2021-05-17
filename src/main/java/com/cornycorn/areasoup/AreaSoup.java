@@ -9,16 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AreaSoup {
-    private static int N = 10000000;
-
-    /**
-     * Sets the accuracy value for integration calculations.
-     *
-     * @param N The accuracy value.
-     */
-    public static void setN(int N) {
-        AreaSoup.N = N;
-    }
+    private static final int N = 10000000;
 
     /**
      * Integrates the function, f, from a to b using Simpson's rule.
@@ -47,36 +38,6 @@ public class AreaSoup {
         }
 
         return sum * h;
-    }
-
-    /**
-     * Calculates the volume of revolution for the top function and bottom function
-     * of this instance of AreaSoup from a to b about the x-axis.
-     *
-     * @param a    The lower limit of integration.
-     * @param b    The upper limit of integration.
-     * @param axis The y/x value of the axis of rotation where 0 is about the x/y-axis.
-     * @return The volume of revolution.
-     */
-    public static double revolution(double a, double b, double axis, Function functionTop, Function functionBottom) {
-        // The top function with the axis offset squared.
-        Function squaredFunctionTop = new Squared() {
-            @Override
-            public double f(double x) {
-                return Math.pow(axis - functionTop.f(x), 2);
-            }
-        };
-
-        // The bottom function with the axis offset squared.
-        Function squaredFunctionBottom = new Squared() {
-            @Override
-            public double f(double x) {
-                return Math.pow(axis - functionBottom.f(x), 2);
-            }
-        };
-
-        // Split the volume of revolution formula into two separate integrals.
-        return Math.PI * (integrate(a, b, squaredFunctionTop) - integrate(a, b, squaredFunctionBottom));
     }
 
     /**

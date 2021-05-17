@@ -41,10 +41,6 @@ public class GraphPanel extends JPanel {
     private static GraphPanel mainPanel;
     private static JPanel panel = new JPanel();
     private static JLabel estimateLabelPost = new JLabel();
-
-    // Calculate objects
-    private static JPanel calcPanel = new JPanel();
-    private static JPanel approximationPanel = new JPanel();
     private static JLabel infoLabel = new JLabel();
 
     // Static variables
@@ -88,11 +84,6 @@ public class GraphPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Clear panels
-        calcPanel.removeAll();
-        calcPanel.revalidate();
-        approximationPanel.removeAll();
-        approximationPanel.revalidate();
 
         // Draw graph
         Graphics2D g2 = (Graphics2D) g;
