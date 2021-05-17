@@ -5,6 +5,12 @@ package com.cornycorn.areasoup.functions;
  * from Quake III's source code.
  */
 public class FastInverseSquareRoot implements Function {
+    /**
+     * Calculates the inverse square root for a given x-value. Represents f(x) = 1 / sqrt(x).
+     *
+     * @param x The x-value to find the y-value for.
+     * @return 1 / sqrt(x).
+     */
     @Override
     public double f(double x) {
         double xhalf = 0.5d * x;
