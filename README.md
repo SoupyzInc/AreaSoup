@@ -14,7 +14,7 @@ of the current function for n rectangles in the specified domain. (You must hit 
 functions, approximation method, or n value to recalculate the area)
 
 ### Installation with NetBeans
-Clone this project as a ZIP file and open it in NetBeans. Make sure you are using JDK 16, otherwise Maven may not load correctly.
+Clone this project as a ZIP file and open it in NetBeans. Make sure you are using at least JDK 14, otherwise Maven may not load correctly.
 
 ### Adding new functions
 To add new functions, create a new class that `implements` the `Function` interface. `Function` is defined under 
