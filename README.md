@@ -13,6 +13,9 @@ Entering an n value will tell you if the current approximation technique will ei
 of the current function for n rectangles in the specified domain. (You must hit enter in the text box after changing
 functions, approximation method, or n value to recalculate the area)
 
+### Installation with NetBeans
+Clone this project as a ZIP file and open it in NetBeans. Make sure you are using JDK 16, otherwise Maven may not load correctly.
+
 ### Adding new functions
 To add new functions, create a new class that `implements` the `Function` interface. `Function` is defined under 
 [Function.java][function] as
