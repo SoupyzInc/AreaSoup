@@ -43,6 +43,8 @@ JMenuItem yourFunctionItem = new JMenuItem("Your Function");
 yourFunctionItem.addActionListener(ev -> {
     function = new YourFunction();
     functionName = "Your Function";
+    updateInfoLabel();
+    updateEstimateLabel();
     setValues();
 });
 fm.add(yourFunctionItem);
