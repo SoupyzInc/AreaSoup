@@ -1,6 +1,8 @@
 # AreaSoup
 A Java Swing app to visualize different integral approximation methods and perform basic calculus operations.
 
+![](https://github.com/SoupyzInc/AreaSoup/blob/main/AreaSoup%20Demo.gif)
+
 With AreaSoup, you can change the function you are graphing, and the approximation method you are using. You
 can change the interval width of the rectangle/trapezoid by changing the ∆x value. Change how much of the graph you are
 seeing by changing the domain value. Note that all values should be positive integers in degrees. (You must hit enter
